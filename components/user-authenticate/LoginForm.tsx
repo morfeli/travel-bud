@@ -75,7 +75,7 @@ export const LoginForm = () => {
 
     if (!result?.error) {
       setLoginResult("Successful Login");
-      router.push("/suggestions");
+      router.push("/dashboard");
     } else if (result?.error.includes("firstName")) {
       setLoginResult("Invalid email address");
     } else {

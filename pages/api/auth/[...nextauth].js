@@ -6,16 +6,11 @@ import {
   comparePasswords,
 } from "../../../components/helper-functions/HelperFunctions";
 
-type credentials = {
-  email: string;
-  password: string;
-};
-
 export default NextAuth({
   session: { strategy: "jwt" },
   providers: [
     CredentialsProvider({
-      async authorize(credentials: credentials) {
+      async authorize(credentials) {
         const client = await connectToDatabase();
         const userCollection = client
           .db("morfeli-travelbud")
@@ -24,10 +19,6 @@ export default NextAuth({
         const user = await userCollection.findOne({
           email: credentials?.email,
         });
-
-        if (!user) {
-          return null;
-        }
 
         const userInfo = {
           firstName: user?.firstName,
@@ -42,7 +33,7 @@ export default NextAuth({
           throw new Error("No user found!");
         }
 
-        const userPW = credentials?.password;
+        const userPW = credentials.password;
         const isValid = await comparePasswords(userPW, user.password);
         if (!isValid) {
           client.close();
@@ -54,9 +45,9 @@ export default NextAuth({
 
         client.close();
 
-        if (userInfo) {
+        if (user) {
           return {
-            ...userInfo,
+            name: userInfo,
           };
         } else {
           return null;

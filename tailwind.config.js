@@ -17,6 +17,7 @@ module.exports = {
         darkpurpleTwo: "#815ac0",
         darkpurpleThree: "#7251b5",
         darkPurpleFour: "#6247aa",
+        darkMode: "#6c757d",
       },
     },
     fontFamily: {
