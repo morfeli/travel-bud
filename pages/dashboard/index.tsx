@@ -2,12 +2,14 @@ import { getSession } from "next-auth/react";
 import { Header } from "../../components/Header/Header";
 
 import { DashboardHero } from "../../components/Hero/DashboardHero";
+import { UserNavigation } from "../../components/UI/UserNavigation";
 
 const DashboardHomePage = ({ userInfo }: any) => {
   return (
     <>
       <Header />
       <DashboardHero userInfo={userInfo} />
+      <UserNavigation />
     </>
   );
 };

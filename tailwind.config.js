@@ -19,6 +19,9 @@ module.exports = {
         darkPurpleFour: "#6247aa",
         darkMode: "#6c757d",
       },
+      width: {
+        "375px": "375px",
+      },
     },
     fontFamily: {
       Chillax: ["Chillax", "sans-serif"],

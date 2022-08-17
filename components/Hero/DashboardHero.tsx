@@ -61,7 +61,12 @@ export const DashboardHero = ({ userInfo }: DashboardHeroProps) => {
     );
   }
   return (
-    <section className={style}>
+    <motion.section
+      className={style}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 1 }}
+    >
       <div className="flex justify-between pt-2 pl-2">
         <div className="flex">
           <div className="w-12 h-12 rounded-full bg-lightpurpleOne" />
@@ -93,9 +98,9 @@ export const DashboardHero = ({ userInfo }: DashboardHeroProps) => {
         <p>
           {message}, {userInfo.firstName}.
         </p>
-        <p>Where do you want to go?</p>
+        <p className="text-2xl">Where do you want to go?</p>
         <SearchBar />
       </div>
-    </section>
+    </motion.section>
   );
 };
