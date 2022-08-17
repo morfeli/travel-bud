@@ -52,7 +52,7 @@ export const TravelAppProvider = ({ children }: TravelProviderProps) => {
       setEmail(session.user.name.email);
       setFirstName(session.user.name.firstName);
       setLastName(session.user.name.lastName);
-      setObjectID(session.user.name.objectID);
+      setObjectID(session.user.name.objectId);
     }
   }, []);
 

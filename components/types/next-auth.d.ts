@@ -11,7 +11,7 @@ declare module "next-auth" {
         lastName: string;
         email: string;
         userName: string;
-        objectID: string;
+        objectId: string;
       };
     };
   }

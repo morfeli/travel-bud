@@ -1,16 +1,13 @@
 import { getSession } from "next-auth/react";
 import { Header } from "../../components/Header/Header";
 
-import { useTravelContext } from "../../components/helper-functions/useTravelContext";
 import { DashboardHero } from "../../components/Hero/DashboardHero";
 
-const DashboardHomePage = () => {
-  const travelCtx = useTravelContext();
-
+const DashboardHomePage = ({ userInfo }: any) => {
   return (
     <>
       <Header />
-      <DashboardHero />
+      <DashboardHero userInfo={userInfo} />
     </>
   );
 };
@@ -23,13 +20,26 @@ export const getServerSideProps = async (context: any) => {
   if (!session) {
     return {
       redirect: {
-        destinations: "/",
+        destination: "/",
         permanent: false,
       },
     };
   } else {
+    const firstName = session.user.name.firstName;
+    const lastName = session.user.name.lastName;
+    const email = session.user.name.email;
+    const userName = session.user.name.userName;
+    const objectId = session.user.name.objectId;
+
+    const userInfo = {
+      firstName,
+      lastName,
+      email,
+      userName,
+      objectId,
+    };
     return {
-      props: { session },
+      props: { userInfo },
     };
   }
 };
