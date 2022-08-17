@@ -33,6 +33,7 @@ class MyDocument extends Document {
             content="Innovative Italian Cusine and Rodizio"
           />
           <meta property="og:url" content="https://trattoriailcafone.com" /> */}
+          <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDw589TUlV83Kt-bXfqA0QN61VP9blecGM&libraries=places"></script>
         </Head>
         <body className="font-Chillax">
           <Main />
