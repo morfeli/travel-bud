@@ -1,17 +1,25 @@
 import { getSession } from "next-auth/react";
-
+import classNames from "classnames";
 import { Header } from "../../components/Header/Header";
 import { DashboardHero } from "../../components/Hero/DashboardHero";
+import { PopularPlaces } from "../../components/UI/PopularPlaces";
 import { Map } from "../../components/UI/Map";
 import { UserNavigation } from "../../components/UI/UserNavigation";
+import { useTravelContext } from "../../components/helper-functions/useTravelContext";
+import { Categories } from "../../components/UI/Categories";
 
 const DashboardHomePage = ({ userInfo }: any) => {
+  const travelCtx = useTravelContext();
   return (
     <>
       <Header />
-      <DashboardHero userInfo={userInfo} />
-      <Map />
-      <UserNavigation />
+      <div className={travelCtx.darkMode ? "bg-darkMode" : "bg-white"}>
+        <DashboardHero userInfo={userInfo} />
+        <Categories />
+        <PopularPlaces />
+        <Map />
+        <UserNavigation />
+      </div>
     </>
   );
 };

@@ -13,10 +13,19 @@ export const SearchBar = () => {
   const [destination, setDestination] = useState<string>("");
 
   const destinationSelectHandler = async (value: string) => {
+    console.log(value.trim());
     setDestination(value);
     const result = await geocodeByAddress(value);
     const cord = await getLatLng(result[0]);
     travelCtx.toggleCoordinates(cord);
+  };
+
+  const fetchWikiData = () => {
+    const endpoint = `https://en.wikipedia.org/w/api.php?action=query&list=search&prop=info&inprop=url&utf8=&format=json&origin=*&srlimit=5&srsearch=${destination}`;
+
+    fetch(endpoint)
+      .then((res) => res.json())
+      .then((data) => console.log(data));
   };
 
   const searchOptions = {
@@ -39,10 +48,13 @@ export const SearchBar = () => {
               {...getInputProps({
                 placeholder: "Search Places ...",
 
-                className: "border-2 border-medpurpleOne py-2 pl-8",
+                className: "border-2 border-medpurpleOne py-2 pl-8 rounded-xl",
               })}
             />
-            <button className="p-2 ml-4 rounded-md bg-medpurpleThree">
+            <button
+              className="p-2 ml-4 rounded-xl bg-medpurpleThree"
+              onClick={fetchWikiData}
+            >
               Search
             </button>
 

@@ -51,18 +51,9 @@ export const DashboardHero = ({ userInfo }: DashboardHeroProps) => {
     animate: { x: 30 },
   };
 
-  let style;
-
-  style = classNames("flex flex-col justify-between pt-4 px-2");
-
-  if (travelCtx.darkMode) {
-    style = classNames(
-      "bg-darkMode text-white flex flex-col justify-between pt-4 px-2"
-    );
-  }
   return (
     <motion.section
-      className={style}
+      className="flex flex-col justify-between px-2 pt-4"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 1 }}
