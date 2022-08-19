@@ -19,7 +19,12 @@ type TravelAppContextType = {
   email: string;
   objectID: string;
   darkMode: boolean;
+  coordinates: {
+    lat: number;
+    lng: number;
+  };
   toggleDarkMode: () => void;
+  toggleCoordinates: (value: any) => void;
 };
 
 const travelAppDefaultState = {
@@ -29,7 +34,12 @@ const travelAppDefaultState = {
   email: "",
   objectID: "",
   darkMode: false,
+  coordinates: {
+    lat: 0,
+    lng: 0,
+  },
   toggleDarkMode: () => {},
+  toggleCoordinates: () => {},
 };
 
 export const TravelContext = createContext<TravelAppContextType>(
@@ -45,6 +55,10 @@ export const TravelAppProvider = ({ children }: TravelProviderProps) => {
   const [lastName, setLastName] = useState<string>("");
   const [objectID, setObjectID] = useState<string>("");
   const [darkMode, setDarkMode] = useState<boolean>(false);
+  const [coordinates, setCoordinates] = useState<{ lat: number; lng: number }>({
+    lat: 0,
+    lng: 0,
+  });
 
   useEffect(() => {
     if (status === "authenticated") {
@@ -56,8 +70,20 @@ export const TravelAppProvider = ({ children }: TravelProviderProps) => {
     }
   }, []);
 
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(
+      ({ coords: { latitude, longitude } }) => {
+        setCoordinates({ lat: latitude, lng: longitude });
+      }
+    );
+  }, []);
+
   const toggleDarkMode = useCallback(() => {
     setDarkMode((current) => !current);
+  }, []);
+
+  const toggleCoordinates = useCallback((value: any) => {
+    setCoordinates(value);
   }, []);
 
   const state = useMemo(
@@ -69,8 +95,20 @@ export const TravelAppProvider = ({ children }: TravelProviderProps) => {
       objectID,
       darkMode,
       toggleDarkMode,
+      coordinates,
+      toggleCoordinates,
     }),
-    [userName, email, firstName, lastName, objectID, toggleDarkMode, darkMode]
+    [
+      userName,
+      email,
+      firstName,
+      lastName,
+      objectID,
+      toggleDarkMode,
+      darkMode,
+      coordinates,
+      toggleCoordinates,
+    ]
   );
 
   return (

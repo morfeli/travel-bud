@@ -1,7 +1,8 @@
 import { getSession } from "next-auth/react";
-import { Header } from "../../components/Header/Header";
 
+import { Header } from "../../components/Header/Header";
 import { DashboardHero } from "../../components/Hero/DashboardHero";
+import { Map } from "../../components/UI/Map";
 import { UserNavigation } from "../../components/UI/UserNavigation";
 
 const DashboardHomePage = ({ userInfo }: any) => {
@@ -9,6 +10,7 @@ const DashboardHomePage = ({ userInfo }: any) => {
     <>
       <Header />
       <DashboardHero userInfo={userInfo} />
+      <Map />
       <UserNavigation />
     </>
   );

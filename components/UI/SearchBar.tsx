@@ -5,13 +5,18 @@ import {
   getLatLng,
 } from "react-places-autocomplete";
 import { useState } from "react";
+import { useTravelContext } from "../helper-functions/useTravelContext";
 import { SearchSVG } from "../Icons/SearchSVG";
 
 export const SearchBar = () => {
+  const travelCtx = useTravelContext();
   const [destination, setDestination] = useState<string>("");
 
-  const destinationSelectHandler = (value: string) => {
-    geocodeByAddress(value);
+  const destinationSelectHandler = async (value: string) => {
+    setDestination(value);
+    const result = await geocodeByAddress(value);
+    const cord = await getLatLng(result[0]);
+    travelCtx.toggleCoordinates(cord);
   };
 
   const searchOptions = {
@@ -28,13 +33,19 @@ export const SearchBar = () => {
         searchOptions={searchOptions}
       >
         {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
-          <div>
+          <div className="relative">
+            <SearchSVG />
             <input
               {...getInputProps({
                 placeholder: "Search Places ...",
-                className: "border-2 border-medpurpleOne py-2 ",
+
+                className: "border-2 border-medpurpleOne py-2 pl-8",
               })}
             />
+            <button className="p-2 ml-4 rounded-md bg-medpurpleThree">
+              Search
+            </button>
+
             <div>
               {loading && <div>Loading...</div>}
               {suggestions.map((suggestion, idx) => {
@@ -57,9 +68,6 @@ export const SearchBar = () => {
           </div>
         )}
       </PlacesAutocomplete>
-
-      <SearchSVG />
-      <button className="p-2 ml-4 rounded-md bg-medpurpleThree">Search</button>
     </div>
   );
 };
