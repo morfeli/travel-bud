@@ -18,7 +18,7 @@ export const UserNavigation = () => {
   };
 
   return (
-    <section className="absolute left-0 flex justify-around w-screen pt-4 bottom-4">
+    <section className="absolute bottom-0 left-0 flex justify-around w-screen p-4 bg-slate-200">
       <HomeSVG
         activeTab={activeTab}
         value="Home"
