@@ -7,6 +7,7 @@ import { useTravelContext } from "../helper-functions/useTravelContext";
 import { SunSVG } from "../Icons/SunSVG";
 import { MoonSVG } from "../Icons/MoonSVG";
 import { SearchBar } from "../UI/SearchBar";
+import { PinSVG } from "../UI/PinSVG";
 
 type DashboardHeroProps = {
   userInfo: {
@@ -85,10 +86,21 @@ export const DashboardHero = ({ userInfo }: DashboardHeroProps) => {
         </div>
       </div>
 
+      {travelCtx.userLocation && (
+        <div className="flex">
+          <PinSVG />
+          <span>
+            {travelCtx.userLocation.locality}, {travelCtx.userLocation.city},{" "}
+            {travelCtx.userLocation.principalSubdivision}
+          </span>
+        </div>
+      )}
+
       <div className="pt-4">
         <p>
           {message}, {userInfo.firstName}.
         </p>
+
         <p className="text-2xl">Where do you want to go?</p>
         <SearchBar />
       </div>

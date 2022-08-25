@@ -4,7 +4,7 @@ export const SaveSVG = ({ activeTab, value, setTab }: SaveSVGProps) => {
   return (
     <div
       className={classNames("p-1 scale-150 rounded-md", {
-        "bg-lightpurpleTwo": activeTab === "Save",
+        "bg-white": activeTab === "Save",
       })}
       onClick={() => setTab(value)}
     >

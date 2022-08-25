@@ -19,10 +19,20 @@ type TravelAppContextType = {
   email: string;
   objectID: string;
   darkMode: boolean;
-  coordinates: {
+  mapCoordinates: {
     lat: number;
     lng: number;
   };
+  userCoordinates: {
+    lat: number;
+    lng: number;
+  };
+  userLocation: {
+    city: string;
+    locality: string;
+    principalSubdivision: string;
+  };
+
   toggleDarkMode: () => void;
   toggleCoordinates: (value: any) => void;
 };
@@ -34,10 +44,20 @@ const travelAppDefaultState = {
   email: "",
   objectID: "",
   darkMode: false,
-  coordinates: {
+  mapCoordinates: {
     lat: 0,
     lng: 0,
   },
+  userCoordinates: {
+    lat: 0,
+    lng: 0,
+  },
+  userLocation: {
+    city: "",
+    locality: "",
+    principalSubdivision: "",
+  },
+
   toggleDarkMode: () => {},
   toggleCoordinates: () => {},
 };
@@ -55,10 +75,25 @@ export const TravelAppProvider = ({ children }: TravelProviderProps) => {
   const [lastName, setLastName] = useState<string>("");
   const [objectID, setObjectID] = useState<string>("");
   const [darkMode, setDarkMode] = useState<boolean>(false);
-  const [coordinates, setCoordinates] = useState<{ lat: number; lng: number }>({
+  const [mapCoordinates, setMapCoordinates] = useState<{
+    lat: number;
+    lng: number;
+  }>({
     lat: 0,
     lng: 0,
   });
+  const [userCoordinates, setUserCoordinates] = useState<{
+    lat: number;
+    lng: number;
+  }>({
+    lat: 0,
+    lng: 0,
+  });
+  const [userLocation, setUserLocation] = useState<{
+    city: string;
+    locality: string;
+    principalSubdivision: string;
+  }>({ city: "", locality: "", principalSubdivision: "" });
 
   useEffect(() => {
     if (status === "authenticated") {
@@ -73,17 +108,29 @@ export const TravelAppProvider = ({ children }: TravelProviderProps) => {
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(
       ({ coords: { latitude, longitude } }) => {
-        setCoordinates({ lat: latitude, lng: longitude });
+        setUserCoordinates({ lat: latitude, lng: longitude });
+        setMapCoordinates({ lat: latitude, lng: longitude });
       }
     );
   }, []);
+
+  useEffect(() => {
+    if (userCoordinates.lat === 0 && userCoordinates.lng === 0) {
+      return;
+    }
+    fetch(
+      `https://api.bigdatacloud.net/data/reverse-geocode?latitude=${userCoordinates.lat}&longitude=${userCoordinates.lng}&localityLanguage=en&key=bdc_ce142ca2242b401bb3b1e5dd86775bfb`
+    )
+      .then((res) => res.json())
+      .then((data) => setUserLocation(data));
+  }, [userCoordinates]);
 
   const toggleDarkMode = useCallback(() => {
     setDarkMode((current) => !current);
   }, []);
 
   const toggleCoordinates = useCallback((value: any) => {
-    setCoordinates(value);
+    setMapCoordinates(value);
   }, []);
 
   const state = useMemo(
@@ -95,8 +142,10 @@ export const TravelAppProvider = ({ children }: TravelProviderProps) => {
       objectID,
       darkMode,
       toggleDarkMode,
-      coordinates,
+      mapCoordinates,
+      userCoordinates,
       toggleCoordinates,
+      userLocation,
     }),
     [
       userName,
@@ -106,8 +155,10 @@ export const TravelAppProvider = ({ children }: TravelProviderProps) => {
       objectID,
       toggleDarkMode,
       darkMode,
-      coordinates,
+      mapCoordinates,
       toggleCoordinates,
+      userCoordinates,
+      userLocation,
     ]
   );
 

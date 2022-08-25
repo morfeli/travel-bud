@@ -5,7 +5,7 @@ export const CompassSVG = ({ activeTab, value, setTab }: CompassSVGProps) => {
   return (
     <div
       className={classNames("p-1 scale-150 rounded-md", {
-        "bg-lightpurpleTwo": activeTab === "Compass",
+        "bg-white": activeTab === "Compass",
       })}
       onClick={() => setTab(value)}
     >

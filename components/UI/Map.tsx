@@ -7,10 +7,10 @@ export const Map = () => {
   const travelCtx = useTravelContext();
 
   return (
-    <div className="w-screen p-2 mx-auto mt-2 h-72">
+    <div className="w-screen p-2 mx-auto mt-2 h-44">
       <GoogleMapReact
         bootstrapURLKeys={{ key: "AIzaSyDw589TUlV83Kt-bXfqA0QN61VP9blecGM" }}
-        center={travelCtx.coordinates}
+        center={travelCtx.mapCoordinates}
         defaultZoom={10}
         options={{
           disableDefaultUI: true,

@@ -5,7 +5,7 @@ export const HomeSVG = ({ activeTab, value, setTab }: HomeSVGProps) => {
   return (
     <div
       className={classNames("p-1 scale-150 rounded-md", {
-        "bg-lightpurpleTwo": activeTab === "Home",
+        "bg-white": activeTab === "Home",
       })}
       onClick={() => setTab(value)}
     >
