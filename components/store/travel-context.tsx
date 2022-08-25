@@ -32,6 +32,14 @@ type TravelAppContextType = {
     locality: string;
     principalSubdivision: string;
   };
+  destinationWeatherData: {
+    mainTemp: number;
+    sunset: number;
+    sunrise: number;
+    weatherDescMain: string;
+    weatherDesc: string;
+    icon: string;
+  };
 
   toggleDarkMode: () => void;
   toggleCoordinates: (value: any) => void;
@@ -56,6 +64,14 @@ const travelAppDefaultState = {
     city: "",
     locality: "",
     principalSubdivision: "",
+  },
+  destinationWeatherData: {
+    mainTemp: 0,
+    sunset: 0,
+    sunrise: 0,
+    weatherDescMain: "",
+    weatherDesc: "",
+    icon: "",
   },
 
   toggleDarkMode: () => {},
@@ -94,6 +110,21 @@ export const TravelAppProvider = ({ children }: TravelProviderProps) => {
     locality: string;
     principalSubdivision: string;
   }>({ city: "", locality: "", principalSubdivision: "" });
+  const [destinationWeatherData, setDestinationWeatherData] = useState<{
+    mainTemp: number;
+    sunset: number;
+    sunrise: number;
+    weatherDescMain: string;
+    weatherDesc: string;
+    icon: string;
+  }>({
+    mainTemp: 0,
+    sunset: 0,
+    sunrise: 0,
+    weatherDescMain: "",
+    weatherDesc: "",
+    icon: "",
+  });
 
   useEffect(() => {
     if (status === "authenticated") {
@@ -125,6 +156,31 @@ export const TravelAppProvider = ({ children }: TravelProviderProps) => {
       .then((data) => setUserLocation(data));
   }, [userCoordinates]);
 
+  useEffect(() => {
+    fetch(
+      `https://api.openweathermap.org/data/2.5/weather?lat=${mapCoordinates.lat}&lon=${mapCoordinates.lng}&units=imperial&appid=c72c45667ef9cbf16ca0a6a26fb60435`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        const mainTemp = data.main.temp;
+        const sunset = data.sys.sunset;
+        const sunrise = data.sys.sunrise;
+        const weatherDescMain = data.weather[0].main;
+        const weatherDesc = data.weather[0].description;
+        const icon = data.weather[0].icon;
+        const weatherData = {
+          mainTemp,
+          sunset,
+          sunrise,
+          weatherDesc,
+          weatherDescMain,
+          icon,
+        };
+
+        setDestinationWeatherData(weatherData);
+      });
+  }, [mapCoordinates]);
+
   const toggleDarkMode = useCallback(() => {
     setDarkMode((current) => !current);
   }, []);
@@ -146,6 +202,7 @@ export const TravelAppProvider = ({ children }: TravelProviderProps) => {
       userCoordinates,
       toggleCoordinates,
       userLocation,
+      destinationWeatherData,
     }),
     [
       userName,
@@ -159,6 +216,7 @@ export const TravelAppProvider = ({ children }: TravelProviderProps) => {
       toggleCoordinates,
       userCoordinates,
       userLocation,
+      destinationWeatherData,
     ]
   );
 

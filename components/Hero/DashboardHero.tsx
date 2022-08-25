@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import classNames from "classnames";
 import moment from "moment";
 
 import { useTravelContext } from "../helper-functions/useTravelContext";

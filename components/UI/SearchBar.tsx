@@ -7,15 +7,13 @@ import {
 import { useEffect, useState } from "react";
 import { useTravelContext } from "../helper-functions/useTravelContext";
 import { SearchSVG } from "../Icons/SearchSVG";
-
-type DestinationType = {
-  query: {};
-};
+import { DestinationCard } from "./DestinationCard";
 
 export const SearchBar = () => {
   const travelCtx = useTravelContext();
   const [destination, setDestination] = useState<string>("");
-  const [destinationData, setDestinationData] = useState({});
+  const [destinationData, setDestinationData] = useState<any>({});
+  const [loading, setLoading] = useState<boolean>(false);
 
   const destinationSelectHandler = async (value: string) => {
     setDestination(value);
@@ -24,12 +22,30 @@ export const SearchBar = () => {
     travelCtx.toggleCoordinates(cord);
   };
 
+  const fetchWikiData = () => {
+    const test = destination.replace(/\s+/g, "_");
+    const endpoint = `https://en.wikipedia.org/w/api.php?action=query&generator=search&gsrsearch=${test}&gsrlimit=1&prop=pageimages|extracts&exchars=${300}&exintro&explaintext&exlimit=max&format=json&origin=*`;
+
+    setLoading(true);
+    fetch(endpoint)
+      .then((res) => res.json())
+      .then((data) => {
+        const pageID = Object.keys(data.query.pages)[0];
+        setDestinationData(data.query.pages[pageID]);
+        setLoading(false);
+      });
+  };
+
+  useEffect(() => {
+    console.log(destinationData);
+  }, [destinationData]);
+
   const searchOptions = {
     types: ["(regions)"],
   };
 
   return (
-    <div className="relative flex items-center pt-4">
+    <div className="relative flex flex-col pt-4">
       <label htmlFor="searchDestinations" />
       <PlacesAutocomplete
         value={destination}
@@ -47,7 +63,10 @@ export const SearchBar = () => {
                 className: "border-2 border-medpurpleOne py-2 pl-8 rounded-xl",
               })}
             />
-            <button className="p-2 ml-4 rounded-xl bg-medpurpleThree">
+            <button
+              className="p-2 ml-4 rounded-xl bg-medpurpleThree"
+              onClick={fetchWikiData}
+            >
               Search
             </button>
 
@@ -63,6 +82,7 @@ export const SearchBar = () => {
                       style,
                     })}
                     key={suggestion.placeId}
+                    className="cursor-pointer"
                   >
                     <span>{suggestion.description}</span>
                   </div>
@@ -72,6 +92,7 @@ export const SearchBar = () => {
           </div>
         )}
       </PlacesAutocomplete>
+      <DestinationCard data={destinationData} loading={loading} />
     </div>
   );
 };

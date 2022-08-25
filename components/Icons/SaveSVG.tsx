@@ -3,7 +3,7 @@ import classNames from "classnames";
 export const SaveSVG = ({ activeTab, value, setTab }: SaveSVGProps) => {
   return (
     <div
-      className={classNames("p-1 scale-150 rounded-md", {
+      className={classNames("p-1 scale-150 rounded-md cursor-pointer", {
         "bg-white": activeTab === "Save",
       })}
       onClick={() => setTab(value)}
