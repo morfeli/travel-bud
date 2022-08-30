@@ -5,8 +5,8 @@ import moment from "moment";
 import { useTravelContext } from "../helper-functions/useTravelContext";
 import { SunSVG } from "../Icons/SunSVG";
 import { MoonSVG } from "../Icons/MoonSVG";
-import { SearchBar } from "../UI/SearchBar";
 import { PinSVG } from "../UI/PinSVG";
+import { SearchBar } from "../UI/SearchBar";
 
 type DashboardHeroProps = {
   userInfo: {
@@ -101,8 +101,8 @@ export const DashboardHero = ({ userInfo }: DashboardHeroProps) => {
         </p>
 
         <p className="text-2xl">Where do you want to go?</p>
-        <SearchBar />
       </div>
+      <SearchBar />
     </motion.section>
   );
 };

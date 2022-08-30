@@ -1,98 +1,85 @@
-import PlacesAutocomplete from "react-places-autocomplete";
-import {
-  geocodeByAddress,
-  geocodeByPlaceId,
-  getLatLng,
-} from "react-places-autocomplete";
 import { useEffect, useState } from "react";
 import { useTravelContext } from "../helper-functions/useTravelContext";
 import { SearchSVG } from "../Icons/SearchSVG";
 import { DestinationCard } from "./DestinationCard";
 
+export interface Data {
+  fsq_id: string;
+  name: string;
+  location: {
+    address: string;
+    locality: string;
+  };
+}
+[];
+
 export const SearchBar = () => {
   const travelCtx = useTravelContext();
-  const [destination, setDestination] = useState<string>("");
-  const [destinationData, setDestinationData] = useState<any>({});
+
   const [loading, setLoading] = useState<boolean>(false);
+  const [userSearch, setUserSearch] = useState<string>("");
+  const [error, setError] = useState<boolean>(false);
+  const [data, setData] = useState<[Data]>([
+    { fsq_id: "", name: "", location: { address: "", locality: "" } },
+  ]);
 
-  const destinationSelectHandler = async (value: string) => {
-    setDestination(value);
-    const result = await geocodeByAddress(value);
-    const cord = await getLatLng(result[0]);
-    travelCtx.toggleCoordinates(cord);
-  };
+  const lat = travelCtx.userCoordinates.lat;
+  const lon = travelCtx.userCoordinates.lng;
 
-  const fetchWikiData = () => {
-    const test = destination.replace(/\s+/g, "_");
-    const endpoint = `https://en.wikipedia.org/w/api.php?action=query&generator=search&gsrsearch=${test}&gsrlimit=1&prop=pageimages|extracts&exchars=${300}&exintro&explaintext&exlimit=max&format=json&origin=*`;
+  const fetchData = () => {
+    const options = {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        Authorization: "fsq3xR8XOiv7Lq6kjje+r8k78gDySBpeuTW6Rr3BHtZ0j2M=",
+      },
+    };
 
-    setLoading(true);
-    fetch(endpoint)
+    if (userSearch.trim() === "") {
+      setError(true);
+      setTimeout(() => {
+        setError(false);
+      }, 6000);
+      return;
+    }
+
+    fetch(
+      `https://api.foursquare.com/v3/places/search?query=${userSearch}&ll=${lat}%2C${lon}`,
+      options
+    )
       .then((res) => res.json())
+
       .then((data) => {
-        const pageID = Object.keys(data.query.pages)[0];
-        setDestinationData(data.query.pages[pageID]);
-        setLoading(false);
-      });
-  };
+        setLoading(true);
+        setData(data.results);
+      })
+      .catch((err) => setError(err));
 
-  useEffect(() => {
-    console.log(destinationData);
-  }, [destinationData]);
-
-  const searchOptions = {
-    types: ["(regions)"],
+    setLoading(false);
   };
 
   return (
     <div className="relative flex flex-col pt-4">
-      <label htmlFor="searchDestinations" />
-      <PlacesAutocomplete
-        value={destination}
-        onChange={setDestination}
-        onSelect={destinationSelectHandler}
-        searchOptions={searchOptions}
-      >
-        {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
-          <div className="relative">
-            <SearchSVG />
-            <input
-              {...getInputProps({
-                placeholder: "Search Places ...",
-
-                className: "border-2 border-medpurpleOne py-2 pl-8 rounded-xl",
-              })}
-            />
-            <button
-              className="p-2 ml-4 rounded-xl bg-medpurpleThree"
-              onClick={fetchWikiData}
-            >
-              Search
-            </button>
-
-            <div>
-              {loading && <div>Loading...</div>}
-              {suggestions.map((suggestion, idx) => {
-                const style = {
-                  backgroundColor: suggestion.active ? "#d2b7e5" : "#fff",
-                };
-                return (
-                  <div
-                    {...getSuggestionItemProps(suggestion, {
-                      style,
-                    })}
-                    key={suggestion.placeId}
-                    className="cursor-pointer"
-                  >
-                    <span>{suggestion.description}</span>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        )}
-      </PlacesAutocomplete>
-      <DestinationCard data={destinationData} loading={loading} />
+      <div className="flex">
+        <label htmlFor="search" />
+        <input
+          id="search"
+          name="search"
+          type="text"
+          placeholder="Search for a nearby venue"
+          className="py-2 pl-2 border-2 outline-none w-60 border-darkPurpleFour rounded-tl-md rounded-bl-md"
+          onChange={(e) => setUserSearch(e.target.value)}
+        />
+        <SearchSVG />
+        <button
+          type="submit"
+          onClick={fetchData}
+          className="w-20 text-white bg-darkPurpleFour rounded-tr-md rounded-br-md"
+        >
+          Submit
+        </button>
+      </div>
+      <DestinationCard error={error} loading={loading} data={data} />
     </div>
   );
 };

@@ -3,14 +3,14 @@ import { getSession } from "next-auth/react";
 import { Header } from "../../components/Header/Header";
 import { DashboardHero } from "../../components/Hero/DashboardHero";
 import { PopularPlaces } from "../../components/UI/PopularPlaces";
-import { Map } from "../../components/UI/Map";
+
 import { UserNavigation } from "../../components/UI/UserNavigation";
 import { useTravelContext } from "../../components/helper-functions/useTravelContext";
 import { Categories } from "../../components/UI/Categories";
-import { useEffect, useState } from "react";
 
 const DashboardHomePage = ({ userInfo }: any) => {
   const travelCtx = useTravelContext();
+  const apikey = `fsq3tXU7YnTJHNu3XNEXalIJCu/szHTus57d+NBs/NDD1qM`;
 
   return (
     <>
@@ -21,7 +21,7 @@ const DashboardHomePage = ({ userInfo }: any) => {
         <DashboardHero userInfo={userInfo} />
         <Categories />
         <PopularPlaces />
-        <Map />
+
         <UserNavigation />
       </div>
     </>

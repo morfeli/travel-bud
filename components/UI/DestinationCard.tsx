@@ -1,55 +1,32 @@
-import { useTravelContext } from "../helper-functions/useTravelContext";
-import moment from "moment";
+import { Data as iData } from "./SearchBar";
 
 type DestinationCardProps = {
+  error: boolean;
   loading: boolean;
-  data: {
-    title: string;
-    thumbnail: {
-      source: string;
-    };
-    extract: string;
-  };
+  data: iData[];
 };
 
-export const DestinationCard = ({ data, loading }: DestinationCardProps) => {
-  const travelCtx = useTravelContext();
-  const sunriseTime = moment
-    .unix(travelCtx.destinationWeatherData.sunrise)
-    .format("LT");
-  const sunsetTime = moment
-    .unix(travelCtx.destinationWeatherData.sunset)
-    .format("LT");
+export const DestinationCard = ({
+  error,
+  loading,
+  data,
+}: DestinationCardProps) => {
+  if (error) {
+    return <p>There has been an error! Please try again.</p>;
+  }
 
   if (loading) {
-    return (
-      <div>
-        <p>Loading...</p>
-      </div>
-    );
+    return <p>Loading...</p>;
   }
 
-  if (!data.title) {
-    return (
-      <div className="py-4 m-2 text-center bg-lightpurpleOne rounded-md my-4">
-        <h1>Start searching for a destination...</h1>
+  if (data) {
+    data.map((item) => (
+      <div key={item.fsq_id}>
+        <p>{item.name}</p>
+        <p>{item.location.address}</p>
       </div>
-    );
-  } else {
-    return (
-      <div className="flex flex-col bg-lightpurpleOne m-2 p-4 rounded-lg ">
-        <h1 className="text-2xl">{data.title}</h1>
-        <p className="text-sm">{data.extract}</p>
-        <div>
-          <h1>Current Weather</h1>
-          <p>Temperature: {travelCtx.destinationWeatherData.mainTemp}F</p>
-          <p className="capitalize">
-            Description: {travelCtx.destinationWeatherData.weatherDesc}
-          </p>
-          <p>Sunrise: {sunriseTime}</p>
-          <p>Sunset: {sunsetTime}</p>
-        </div>
-      </div>
-    );
+    ));
   }
+
+  return <p>elloh</p>;
 };
