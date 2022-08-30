@@ -1,4 +1,5 @@
 import { getSession } from "next-auth/react";
+import { useEffect, useState } from "react";
 
 import { Header } from "../../components/Header/Header";
 import { DashboardHero } from "../../components/Hero/DashboardHero";
@@ -10,22 +11,43 @@ import { Categories } from "../../components/UI/Categories";
 
 const DashboardHomePage = ({ userInfo }: any) => {
   const travelCtx = useTravelContext();
-  const apikey = `fsq3tXU7YnTJHNu3XNEXalIJCu/szHTus57d+NBs/NDD1qM`;
+  const [innerWidth, setInnerWidth] = useState<number>(0);
+  const isMobile = innerWidth < 767;
 
-  return (
-    <>
-      <Header />
-      <div
-        className={travelCtx.darkMode ? "bg-darkMode text-white" : "bg-white"}
-      >
-        <DashboardHero userInfo={userInfo} />
-        <Categories />
-        <PopularPlaces />
+  const changeWidth = () => setInnerWidth(window.innerWidth);
 
-        <UserNavigation />
-      </div>
-    </>
-  );
+  useEffect(() => {
+    changeWidth();
+
+    window.addEventListener("resize", changeWidth);
+    return () => {
+      window.removeEventListener("resize", changeWidth);
+    };
+  }, []);
+
+  if (isMobile) {
+    return (
+      <>
+        <Header />
+        <div
+          className={travelCtx.darkMode ? "bg-darkMode text-white" : "bg-white"}
+        >
+          <DashboardHero userInfo={userInfo} />
+          <Categories />
+          <PopularPlaces />
+
+          <UserNavigation isMobile={isMobile} innerWidth={innerWidth} />
+        </div>
+      </>
+    );
+  } else {
+    return (
+      <>
+        <Header />
+        <UserNavigation isMobile={isMobile} innerWidth={innerWidth} />
+      </>
+    );
+  }
 };
 
 export default DashboardHomePage;

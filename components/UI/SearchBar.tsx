@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useTravelContext } from "../helper-functions/useTravelContext";
 import { SearchSVG } from "../Icons/SearchSVG";
-import { DestinationCard } from "./DestinationCard";
+import { Venues } from "./Venues";
 
 export interface Data {
   fsq_id: string;
@@ -19,9 +19,7 @@ export const SearchBar = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [userSearch, setUserSearch] = useState<string>("");
   const [error, setError] = useState<boolean>(false);
-  const [data, setData] = useState<[Data]>([
-    { fsq_id: "", name: "", location: { address: "", locality: "" } },
-  ]);
+  const [data, setData] = useState([]);
 
   const lat = travelCtx.userCoordinates.lat;
   const lon = travelCtx.userCoordinates.lng;
@@ -52,10 +50,11 @@ export const SearchBar = () => {
       .then((data) => {
         setLoading(true);
         setData(data.results);
+        setTimeout(() => {
+          setLoading(false);
+        }, 3000);
       })
       .catch((err) => setError(err));
-
-    setLoading(false);
   };
 
   return (
@@ -70,7 +69,7 @@ export const SearchBar = () => {
           className="py-2 pl-2 border-2 outline-none w-60 border-darkPurpleFour rounded-tl-md rounded-bl-md"
           onChange={(e) => setUserSearch(e.target.value)}
         />
-        <SearchSVG />
+        {/* <SearchSVG /> */}
         <button
           type="submit"
           onClick={fetchData}
@@ -79,7 +78,7 @@ export const SearchBar = () => {
           Submit
         </button>
       </div>
-      <DestinationCard error={error} loading={loading} data={data} />
+      <Venues error={error} loading={loading} data={data} />
     </div>
   );
 };

@@ -4,7 +4,7 @@ import classNames from "classnames";
 export const HomeSVG = ({ activeTab, value, setTab }: HomeSVGProps) => {
   return (
     <div
-      className={classNames("p-1 scale-150 rounded-md cursor-default", {
+      className={classNames("p-1 scale-150 rounded-md cursor-pointer md:w-8", {
         "bg-white": activeTab === "Home",
       })}
       onClick={() => setTab(value)}

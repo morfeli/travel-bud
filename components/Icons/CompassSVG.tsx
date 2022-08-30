@@ -4,7 +4,7 @@ import classNames from "classnames";
 export const CompassSVG = ({ activeTab, value, setTab }: CompassSVGProps) => {
   return (
     <div
-      className={classNames("p-1 scale-150 rounded-md cursor-pointer", {
+      className={classNames("p-1 scale-150 rounded-md cursor-pointer md:w-8", {
         "bg-white": activeTab === "Compass",
       })}
       onClick={() => setTab(value)}
