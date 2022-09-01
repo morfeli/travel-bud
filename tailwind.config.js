@@ -26,6 +26,9 @@ module.exports = {
     fontFamily: {
       Chillax: ["Chillax", "sans-serif"],
     },
+    scale: {
+      tiny: "0.2",
+    },
   },
   plugins: [],
 };

@@ -13,6 +13,10 @@ type TravelProviderProps = {
 };
 
 type TravelAppContextType = {
+  data: any[];
+  userSearch: string;
+  loading: boolean;
+  error: boolean;
   firstName: string;
   lastName: string;
   userName: string;
@@ -32,12 +36,17 @@ type TravelAppContextType = {
     locality: string;
     principalSubdivision: string;
   };
-
+  toggleUserSearch: (value: string) => void;
+  fetchData: () => void;
   toggleDarkMode: () => void;
   toggleCoordinates: (value: any) => void;
 };
 
 const travelAppDefaultState = {
+  data: [""],
+  userSearch: "",
+  loading: false,
+  error: false,
   firstName: "",
   lastName: "",
   userName: "",
@@ -57,7 +66,8 @@ const travelAppDefaultState = {
     locality: "",
     principalSubdivision: "",
   },
-
+  toggleUserSearch: () => {},
+  fetchData: () => {},
   toggleDarkMode: () => {},
   toggleCoordinates: () => {},
 };
@@ -69,6 +79,10 @@ export const TravelContext = createContext<TravelAppContextType>(
 export const TravelAppProvider = ({ children }: TravelProviderProps) => {
   const { data: session, status } = useSession();
 
+  const [userSearch, setUserSearch] = useState<string>("");
+  const [error, setError] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [data, setData] = useState([]);
   const [userName, setUserName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [firstName, setFirstName] = useState<string>("");
@@ -125,6 +139,43 @@ export const TravelAppProvider = ({ children }: TravelProviderProps) => {
       .then((data) => setUserLocation(data));
   }, [userCoordinates]);
 
+  const fetchData = () => {
+    const options = {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        Authorization: "fsq3xR8XOiv7Lq6kjje+r8k78gDySBpeuTW6Rr3BHtZ0j2M=",
+      },
+    };
+
+    if (userSearch.trim() === "") {
+      setError(true);
+      setTimeout(() => {
+        setError(false);
+      }, 6000);
+      return;
+    }
+
+    fetch(
+      `https://api.foursquare.com/v3/places/search?query=${userSearch}&ll=${userCoordinates.lat}%2C${userCoordinates.lng}`,
+      options
+    )
+      .then((res) => res.json())
+
+      .then((data) => {
+        setLoading(true);
+        setData(data.results);
+        setTimeout(() => {
+          setLoading(false);
+        }, 3000);
+      })
+      .catch((err) => setError(err));
+  };
+
+  const toggleUserSearch = useCallback((value: string) => {
+    setUserSearch(value);
+  }, []);
+
   const toggleDarkMode = useCallback(() => {
     setDarkMode((current) => !current);
   }, []);
@@ -135,6 +186,11 @@ export const TravelAppProvider = ({ children }: TravelProviderProps) => {
 
   const state = useMemo(
     () => ({
+      fetchData,
+      data,
+      userSearch,
+      loading,
+      error,
       userName,
       email,
       firstName,
@@ -145,9 +201,15 @@ export const TravelAppProvider = ({ children }: TravelProviderProps) => {
       mapCoordinates,
       userCoordinates,
       toggleCoordinates,
+      toggleUserSearch,
       userLocation,
     }),
     [
+      fetchData,
+      data,
+      userSearch,
+      loading,
+      error,
       userName,
       email,
       firstName,
@@ -158,6 +220,7 @@ export const TravelAppProvider = ({ children }: TravelProviderProps) => {
       mapCoordinates,
       toggleCoordinates,
       userCoordinates,
+      toggleUserSearch,
       userLocation,
     ]
   );

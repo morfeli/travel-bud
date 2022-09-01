@@ -30,7 +30,11 @@ const DashboardHomePage = ({ userInfo }: any) => {
       <>
         <Header />
         <div
-          className={travelCtx.darkMode ? "bg-darkMode text-white" : "bg-white"}
+          className={
+            travelCtx.darkMode
+              ? "bg-darkMode text-white overflow-hidden"
+              : "bg-white overflow-hidden"
+          }
         >
           <DashboardHero userInfo={userInfo} />
           <Categories />
