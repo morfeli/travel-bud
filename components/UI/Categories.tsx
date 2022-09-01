@@ -14,7 +14,7 @@ export interface CategoryType {
 
 export const Categories = () => {
   return (
-    <div className="grid grid-cols-3 gap-4">
+    <div className="grid grid-cols-3 gap-12 px-4 justify-items-center sm:grid-cols-4">
       <BeachSVG value="beach" />
       <SpaSVG value="spa" />
       <MovieSVG value="movie" />

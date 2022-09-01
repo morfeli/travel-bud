@@ -1,13 +1,24 @@
 import { CategoryType as Props } from "../UI/Categories";
+import { motion } from "framer-motion";
+import { useTravelContext } from "../helper-functions/useTravelContext";
 
 export const GymSVG = ({ value }: Props) => {
+  const travelCtx = useTravelContext();
+  const toggleFetch = () => {
+    travelCtx.toggleUserSearch(value);
+  };
   return (
-    <div className="rounded-full bg-lightpurpleOne w-fit">
+    <motion.div
+      className="rounded-full cursor-pointer bg-lightpurpleOne w-fit"
+      whileHover={{ scale: 1.1 }}
+      whileTap={{ scale: 0.9 }}
+      onClick={toggleFetch}
+    >
       <svg
         xmlns="http://www.w3.org/2000/svg"
         enableBackground="new 0 0 512 512"
         viewBox="0 0 512 512"
-        className="w-20 h-20 rounded-full"
+        className="h-20 rounded-full"
       >
         <circle cx="256" cy="256" r="256" fill="#d35933"></circle>
         <path
@@ -47,6 +58,6 @@ export const GymSVG = ({ value }: Props) => {
         ></path>
         <circle cx="145.239" cy="170.96" r="6.551" fill="#ffedb5"></circle>
       </svg>
-    </div>
+    </motion.div>
   );
 };

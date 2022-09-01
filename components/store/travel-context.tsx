@@ -176,6 +176,13 @@ export const TravelAppProvider = ({ children }: TravelProviderProps) => {
     setUserSearch(value);
   }, []);
 
+  useEffect(() => {
+    if (userSearch.trim() === "") {
+      return;
+    }
+    fetchData();
+  }, [userSearch]);
+
   const toggleDarkMode = useCallback(() => {
     setDarkMode((current) => !current);
   }, []);

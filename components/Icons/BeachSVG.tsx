@@ -1,18 +1,23 @@
 import { CategoryType as Props } from "../UI/Categories";
 import { useTravelContext } from "../helper-functions/useTravelContext";
+import { motion } from "framer-motion";
 
 export const BeachSVG = ({ value }: Props) => {
   const travelCtx = useTravelContext();
 
   const toggleFetch = () => {
     travelCtx.toggleUserSearch(value);
-    travelCtx.fetchData();
   };
 
   return (
-    <div className="bg-white rounded-full w-fit" onClick={() => toggleFetch()}>
+    <motion.div
+      whileHover={{ scale: 1.1 }}
+      whileTap={{ scale: 0.9 }}
+      className="bg-white rounded-full cursor-pointer w-fit"
+      onClick={toggleFetch}
+    >
       <svg
-        className="w-20 h-20 rounded-full"
+        className="h-20 rounded-full"
         xmlns="http://www.w3.org/2000/svg"
         enableBackground="new 0 0 512 512"
         viewBox="0 0 512 512"
@@ -39,6 +44,6 @@ export const BeachSVG = ({ value }: Props) => {
         <path d="M512 262.492H154.122v-57.469h99.265v-7.837c0-59.057-48.045-107.102-107.102-107.102S39.184 138.13 39.184 197.186v7.837h99.265v57.469H0v15.673h138.449v88.816H0v15.673h138.449v31.347h-23.51v15.673h62.694v-15.673h-23.51v-31.347H512v-15.673H154.122v-88.816H512v-15.673zM112.666 189.35c2.868-34.181 23.526-65.466 33.763-79.066 9.151 12.074 26.295 39.7 28.364 79.066h-62.127zm124.716 0h-46.891c-1.768-38.054-16.039-66.042-26.755-81.921 39.596 7.684 70.155 41.001 73.646 81.921zm-108.279-81.966c-12.07 17.268-29.727 47.89-32.165 81.966H55.189c3.5-41.012 34.189-74.38 73.914-81.966z"></path>
         <path d="M412.735 205.023c38.891 0 70.531-31.64 70.531-70.531s-31.64-70.531-70.531-70.531-70.531 31.64-70.531 70.531 31.64 70.531 70.531 70.531zm0-125.388c30.248 0 54.857 24.608 54.857 54.857s-24.609 54.857-54.857 54.857-54.857-24.608-54.857-54.857 24.609-54.857 54.857-54.857z"></path>
       </svg>
-    </div>
+    </motion.div>
   );
 };

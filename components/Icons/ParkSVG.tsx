@@ -1,13 +1,24 @@
 import { CategoryType as Props } from "../UI/Categories";
+import { motion } from "framer-motion";
+import { useTravelContext } from "../helper-functions/useTravelContext";
 
 export const ParkSVG = ({ value }: Props) => {
+  const travelCtx = useTravelContext();
+  const toggleFetch = () => {
+    travelCtx.toggleUserSearch(value);
+  };
   return (
-    <div className="rounded-full bg-lightpurpleOne w-fit">
+    <motion.div
+      className="rounded-full cursor-pointer bg-lightpurpleOne w-fit"
+      whileHover={{ scale: 1.1 }}
+      whileTap={{ scale: 0.9 }}
+      onClick={toggleFetch}
+    >
       <svg
         xmlns="http://www.w3.org/2000/svg"
         enableBackground="new 0 0 439.48 439.48"
         viewBox="0 0 439.48 439.48"
-        className="w-20 h-20 rounded-full"
+        className="h-20 rounded-full"
       >
         <path
           fill="#07a521"
@@ -66,6 +77,6 @@ export const ParkSVG = ({ value }: Props) => {
           d="M260.225 106.511c2.79 2.78 4.51 6.62 4.51 10.87 0 8.49-6.89 15.37-15.38 15.37h-88.74c-4.25 0-8.09-1.72-10.87-4.5a15.346 15.346 0 01-4.25-8.11c-.17-.89-.25-1.82-.25-2.76 0-8.49 6.88-15.38 15.37-15.38h-22.25c-4.24 0-8.09-1.72-10.87-4.5a15.303 15.303 0 01-4.51-10.87c0-8.49 6.89-15.37 15.38-15.37h53c4.24 0 8.09 1.72 10.87 4.5 2.79 2.78 4.51 6.63 4.51 10.87 0 8.49-6.89 15.37-15.38 15.37h57.99c4.25 0 8.09 1.72 10.87 4.51z"
         ></path>
       </svg>
-    </div>
+    </motion.div>
   );
 };

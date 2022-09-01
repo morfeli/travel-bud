@@ -1,13 +1,25 @@
 import { CategoryType as Props } from "../UI/Categories";
+import { motion } from "framer-motion";
+import { useTravelContext } from "../helper-functions/useTravelContext";
 
 export const CoffeeSVG = ({ value }: Props) => {
+  const travelCtx = useTravelContext();
+  const toggleFetch = () => {
+    travelCtx.toggleUserSearch(value);
+  };
+
   return (
-    <div className="rounded-full bg-lightpurpleOne w-fit">
+    <motion.div
+      whileHover={{ scale: 1.1 }}
+      whileTap={{ scale: 0.9 }}
+      className="rounded-full cursor-pointer bg-lightpurpleOne w-fit"
+      onClick={toggleFetch}
+    >
       <svg
         xmlns="http://www.w3.org/2000/svg"
         enableBackground="new 0 0 491.2 491.2"
         viewBox="0 0 491.2 491.2"
-        className="w-20 h-20 rounded-full"
+        className="h-20 rounded-full "
       >
         <path fill="#64767a" d="M289.149 195.2h58.4v31.2h-58.4z"></path>
         <path
@@ -82,6 +94,6 @@ export const CoffeeSVG = ({ value }: Props) => {
           d="M89.949 108c-2.4 0-4-1.6-4-3.2s1.6-3.2 4-3.2h30.4c2.4 0 4 1.6 4 3.2s-1.6 3.2-4 3.2h-30.4zm0 24.8c-2.4 0-4-1.6-4-3.2s1.6-3.2 4-3.2h30.4c2.4 0 4 1.6 4 3.2s-1.6 3.2-4 3.2h-30.4zm0 25.6c-2.4 0-4-1.6-4-3.2s1.6-3.2 4-3.2h30.4c2.4 0 4 1.6 4 3.2s-1.6 3.2-4 3.2h-30.4z"
         ></path>
       </svg>
-    </div>
+    </motion.div>
   );
 };

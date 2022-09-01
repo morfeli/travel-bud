@@ -1,8 +1,19 @@
 import { CategoryType as Props } from "../UI/Categories";
+import { motion } from "framer-motion";
+import { useTravelContext } from "../helper-functions/useTravelContext";
 
 export const HotelSVG = ({ value }: Props) => {
+  const travelCtx = useTravelContext();
+  const toggleFetch = () => {
+    travelCtx.toggleUserSearch(value);
+  };
   return (
-    <div className="rounded-full bg-lightpurpleOne w-fit">
+    <motion.div
+      className="rounded-full cursor-pointer bg-lightpurpleOne w-fit"
+      whileHover={{ scale: 1.1 }}
+      whileTap={{ scale: 0.9 }}
+      onClick={toggleFetch}
+    >
       <svg
         xmlns="http://www.w3.org/2000/svg"
         enableBackground="new 0 0 370 370"
@@ -34,6 +45,6 @@ export const HotelSVG = ({ value }: Props) => {
         <path fill="#ff5023" d="M105 320h80v-40h-45z"></path>
         <path fill="#bf3c1a" d="M185 320h80l-35-40h-45z"></path>
       </svg>
-    </div>
+    </motion.div>
   );
 };

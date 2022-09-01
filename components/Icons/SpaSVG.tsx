@@ -1,10 +1,21 @@
 import { CategoryType as Props } from "../UI/Categories";
+import { motion } from "framer-motion";
+import { useTravelContext } from "../helper-functions/useTravelContext";
 
 export const SpaSVG = ({ value }: Props) => {
+  const travelCtx = useTravelContext();
+  const toggleFetch = () => {
+    travelCtx.toggleUserSearch(value);
+  };
   return (
-    <div className="bg-white rounded-full w-fit">
+    <motion.div
+      whileHover={{ scale: 1.1 }}
+      whileTap={{ scale: 0.9 }}
+      className="bg-white rounded-full cursor-pointer w-fit"
+      onClick={toggleFetch}
+    >
       <svg
-        className="w-20 h-20 rounded-full"
+        className="h-20 rounded-full"
         xmlns="http://www.w3.org/2000/svg"
         enableBackground="new 0 0 496.158 496.158"
         viewBox="0 0 496.158 496.158"
@@ -104,6 +115,6 @@ export const SpaSVG = ({ value }: Props) => {
           d="M203.007 310.081c-4.557-9.868-9.663-18.966-13.295-22.415-7.131-6.734-15.729-20.365-15.729-20.365l-14.261 24.412 14.436 12.98s10.192 14.34 20.635 23.938c1.228 1.127 13.334 9.691 17.518 1.481 1.521-2.993-4.929-10.551-9.304-20.031zm21.385 62.221l-24.026-24.235-21.093-24.025s-4.308-2.455-8.847.104c-4.534 2.558-16.754 8.786-14.146 13.374l32.41 22.725 23.846 17.572c3.989 4.814 10.492 11.705 14.065 6.22 2.689-4.13.398-7.148-2.209-11.735z"
         ></path>
       </svg>
-    </div>
+    </motion.div>
   );
 };

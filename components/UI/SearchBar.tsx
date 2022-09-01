@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useTravelContext } from "../helper-functions/useTravelContext";
-import { SearchSVG } from "../Icons/SearchSVG";
+// import { SearchSVG } from "../Icons/SearchSVG";
 import { Venues } from "./Venues";
 
 export interface Data {
@@ -14,7 +14,16 @@ export interface Data {
 [];
 
 export const SearchBar = () => {
+  const [searchKey, setSearchKey] = useState<string>("");
   const travelCtx = useTravelContext();
+
+  const validateSearchKey = () => {
+    if (searchKey.trim() === "") {
+      return;
+    }
+
+    travelCtx.toggleUserSearch(searchKey);
+  };
 
   return (
     <div className="relative flex flex-col pt-4">
@@ -26,11 +35,11 @@ export const SearchBar = () => {
           type="text"
           placeholder="Search for a nearby venue"
           className="py-2 pl-2 border-2 outline-none w-60 border-darkPurpleFour rounded-tl-md rounded-bl-md"
-          onChange={(e) => travelCtx.toggleUserSearch(e.target.value)}
+          onChange={(e) => setSearchKey(e.target.value)}
         />
         <button
           type="submit"
-          onClick={travelCtx.fetchData}
+          onClick={validateSearchKey}
           className="w-20 text-white bg-darkPurpleFour rounded-tr-md rounded-br-md"
         >
           Submit
