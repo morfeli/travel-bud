@@ -8,6 +8,7 @@ import { PopularPlaces } from "../../components/UI/PopularPlaces";
 import { UserNavigation } from "../../components/UI/UserNavigation";
 import { useTravelContext } from "../../components/helper-functions/useTravelContext";
 import { Categories } from "../../components/UI/Categories";
+import { Venues } from "../../components/UI/Venues";
 
 const DashboardHomePage = ({ userInfo }: any) => {
   const travelCtx = useTravelContext();
@@ -37,6 +38,11 @@ const DashboardHomePage = ({ userInfo }: any) => {
           }
         >
           <DashboardHero userInfo={userInfo} />
+          <Venues
+            error={travelCtx.error}
+            loading={travelCtx.loading}
+            data={travelCtx.data}
+          />
           <Categories />
           <PopularPlaces />
 
@@ -80,6 +86,7 @@ export const getServerSideProps = async (context: any) => {
       userName,
       objectId,
     };
+
     return {
       props: { userInfo },
     };

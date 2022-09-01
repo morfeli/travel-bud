@@ -1,6 +1,9 @@
+import { ArtSVG } from "../Icons/ArtSVG";
 import { BarSVG } from "../Icons/BarSVG";
 import { BeachSVG } from "../Icons/BeachSVG";
+import { ClubSVG } from "../Icons/ClubSVG";
 import { CoffeeSVG } from "../Icons/CoffeeSVG";
+import { FoodSVG } from "../Icons/FoodSVG";
 import { GymSVG } from "../Icons/GymSVG";
 import { HotelSVG } from "../Icons/HotelSVG";
 import { JuiceSVG } from "../Icons/JuiceSVG";
@@ -14,7 +17,7 @@ export interface CategoryType {
 
 export const Categories = () => {
   return (
-    <div className="grid grid-cols-3 gap-12 px-4 justify-items-center sm:grid-cols-4">
+    <div className="grid grid-cols-3 gap-12 p-4 justify-items-center sm:grid-cols-4">
       <BeachSVG value="beach" />
       <SpaSVG value="spa" />
       <MovieSVG value="movie" />
@@ -24,6 +27,9 @@ export const Categories = () => {
       <ParkSVG value="park" />
       <BarSVG value="bar" />
       <GymSVG value="gym" />
+      <FoodSVG value="food" />
+      <ArtSVG value="art" />
+      <ClubSVG value="club" />
     </div>
   );
 };

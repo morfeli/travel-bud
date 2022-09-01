@@ -1,7 +1,5 @@
 import { useState } from "react";
 import { useTravelContext } from "../helper-functions/useTravelContext";
-// import { SearchSVG } from "../Icons/SearchSVG";
-import { Venues } from "./Venues";
 
 export interface Data {
   fsq_id: string;
@@ -45,11 +43,6 @@ export const SearchBar = () => {
           Submit
         </button>
       </div>
-      <Venues
-        error={travelCtx.error}
-        loading={travelCtx.loading}
-        data={travelCtx.data}
-      />
     </div>
   );
 };

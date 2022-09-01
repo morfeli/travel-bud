@@ -14,6 +14,7 @@ type TravelProviderProps = {
 
 type TravelAppContextType = {
   data: any[];
+  nearByData: any[];
   userSearch: string;
   loading: boolean;
   error: boolean;
@@ -44,6 +45,7 @@ type TravelAppContextType = {
 
 const travelAppDefaultState = {
   data: [""],
+  nearByData: [""],
   userSearch: "",
   loading: false,
   error: false,
@@ -83,6 +85,7 @@ export const TravelAppProvider = ({ children }: TravelProviderProps) => {
   const [error, setError] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [data, setData] = useState([]);
+  const [nearByData, setNearByData] = useState([]);
   const [userName, setUserName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [firstName, setFirstName] = useState<string>("");
@@ -108,6 +111,14 @@ export const TravelAppProvider = ({ children }: TravelProviderProps) => {
     locality: string;
     principalSubdivision: string;
   }>({ city: "", locality: "", principalSubdivision: "" });
+
+  const options = {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      Authorization: "fsq3xR8XOiv7Lq6kjje+r8k78gDySBpeuTW6Rr3BHtZ0j2M=",
+    },
+  };
 
   useEffect(() => {
     if (status === "authenticated") {
@@ -140,14 +151,6 @@ export const TravelAppProvider = ({ children }: TravelProviderProps) => {
   }, [userCoordinates]);
 
   const fetchData = () => {
-    const options = {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        Authorization: "fsq3xR8XOiv7Lq6kjje+r8k78gDySBpeuTW6Rr3BHtZ0j2M=",
-      },
-    };
-
     if (userSearch.trim() === "") {
       setError(true);
       setTimeout(() => {
@@ -157,7 +160,7 @@ export const TravelAppProvider = ({ children }: TravelProviderProps) => {
     }
 
     fetch(
-      `https://api.foursquare.com/v3/places/search?query=${userSearch}&ll=${userCoordinates.lat}%2C${userCoordinates.lng}`,
+      `https://api.foursquare.com/v3/places/search?query=${userSearch}&ll=${userCoordinates.lat}%2C${userCoordinates.lng}&limit=12`,
       options
     )
       .then((res) => res.json())
@@ -171,6 +174,22 @@ export const TravelAppProvider = ({ children }: TravelProviderProps) => {
       })
       .catch((err) => setError(err));
   };
+
+  useEffect(() => {
+    if (userLocation.locality === "") {
+      return;
+    }
+
+    const locality = encodeURIComponent(userLocation.locality);
+    const state = userLocation.principalSubdivision;
+
+    const searchKey = `${locality}%2C%20${state}`;
+
+    fetch(
+      `https://api.foursquare.com/v3/places/search?near=${searchKey}&limit=12`,
+      options
+    ).then((res) => res.json().then((data) => setNearByData(data.results)));
+  }, [userLocation.locality, userLocation.principalSubdivision]);
 
   const toggleUserSearch = useCallback((value: string) => {
     setUserSearch(value);
@@ -195,6 +214,7 @@ export const TravelAppProvider = ({ children }: TravelProviderProps) => {
     () => ({
       fetchData,
       data,
+      nearByData,
       userSearch,
       loading,
       error,
@@ -214,6 +234,7 @@ export const TravelAppProvider = ({ children }: TravelProviderProps) => {
     [
       fetchData,
       data,
+      nearByData,
       userSearch,
       loading,
       error,

@@ -12,7 +12,7 @@ export const CoffeeSVG = ({ value }: Props) => {
     <motion.div
       whileHover={{ scale: 1.1 }}
       whileTap={{ scale: 0.9 }}
-      className="rounded-full cursor-pointer bg-lightpurpleOne w-fit"
+      className="rounded-full cursor-pointer bg-lightpurpleOne w-fit shadow-2xl"
       onClick={toggleFetch}
     >
       <svg

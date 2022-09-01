@@ -9,7 +9,7 @@ export const GymSVG = ({ value }: Props) => {
   };
   return (
     <motion.div
-      className="rounded-full cursor-pointer bg-lightpurpleOne w-fit"
+      className="rounded-full shadow-2xl cursor-pointer bg-lightpurpleOne w-fit"
       whileHover={{ scale: 1.1 }}
       whileTap={{ scale: 0.9 }}
       onClick={toggleFetch}

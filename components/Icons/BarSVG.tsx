@@ -12,7 +12,7 @@ export const BarSVG = ({ value }: Props) => {
     <motion.div
       whileHover={{ scale: 1.1 }}
       whileTap={{ scale: 0.9 }}
-      className="rounded-full cursor-pointer bg-lightpurpleOne w-fit"
+      className="rounded-full shadow-2xl cursor-pointer bg-lightpurpleOne w-fit"
       onClick={toggleFetch}
     >
       <svg

@@ -9,15 +9,17 @@ type DestinationCardProps = {
 
 export const Venues = ({ error, loading, data }: DestinationCardProps) => {
   if (error) {
-    return <p>There has been an error, please try again!</p>;
+    return (
+      <p className="text-center">There has been an error, please try again!</p>
+    );
   }
 
   if (loading) {
-    return <p>Loading...</p>;
+    return <p className="text-center">Loading...</p>;
   }
 
   return (
-    <section className="flex flex-col py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:mx-auto">
+    <section className="flex flex-col py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:mx-auto sm:justify-items-center sm:px-6">
       {data.map((item, i) => (
         <motion.div
           initial={{

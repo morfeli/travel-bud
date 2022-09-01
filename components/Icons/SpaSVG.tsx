@@ -11,7 +11,7 @@ export const SpaSVG = ({ value }: Props) => {
     <motion.div
       whileHover={{ scale: 1.1 }}
       whileTap={{ scale: 0.9 }}
-      className="bg-white rounded-full cursor-pointer w-fit"
+      className="bg-white rounded-full shadow-2xl cursor-pointer w-fit"
       onClick={toggleFetch}
     >
       <svg

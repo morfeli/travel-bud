@@ -53,12 +53,12 @@ export const DashboardHero = ({ userInfo }: DashboardHeroProps) => {
 
   return (
     <motion.section
-      className="flex flex-col justify-between px-2 pt-4"
+      className="flex flex-col justify-between px-2 py-8 sm:px-4"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 1 }}
     >
-      <div className="flex justify-between pt-2 pl-2">
+      <div className="flex justify-between pt-2">
         <div className="flex">
           <div className="w-12 h-12 rounded-full bg-lightpurpleOne" />
           <div className="pl-2">
@@ -86,7 +86,7 @@ export const DashboardHero = ({ userInfo }: DashboardHeroProps) => {
       </div>
 
       {travelCtx.userLocation && (
-        <div className="flex">
+        <div className="flex py-4">
           <PinSVG />
           <span>
             {travelCtx.userLocation.locality}, {travelCtx.userLocation.city},{" "}
@@ -95,14 +95,16 @@ export const DashboardHero = ({ userInfo }: DashboardHeroProps) => {
         </div>
       )}
 
-      <div className="pt-4">
-        <p>
-          {message}, {userInfo.firstName}.
-        </p>
+      <div className="pt-4 sm:flex sm:justify-between">
+        <div className="">
+          <p>
+            {message}, {userInfo.firstName}.
+          </p>
+          <p className="text-2xl">Where do you want to go?</p>
+        </div>
 
-        <p className="text-2xl">Where do you want to go?</p>
+        <SearchBar />
       </div>
-      <SearchBar />
     </motion.section>
   );
 };
