@@ -6,8 +6,10 @@ export const PopularPlaces = () => {
 
   return (
     <section className="flex flex-col py-8">
-      <h1 className="self-center text-xl">Popular Places Nearby</h1>
-      {travelCtx.nearByData.length === 0 && <p>Loading...</p>}
+      <h1 className="self-center text-2xl">Popular Places Nearby</h1>
+      {travelCtx.nearByData.length === 0 && (
+        <p className="text-center">Loading...</p>
+      )}
       <div className="grid grid-cols-3 py-6">
         {travelCtx.nearByData.map((item) => {
           return (

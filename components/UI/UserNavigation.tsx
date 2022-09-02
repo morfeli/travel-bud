@@ -47,7 +47,7 @@ export const UserNavigation = ({
     );
   } else {
     return (
-      <section className="flex flex-col justify-around w-16 h-screen p-4 bg-darkPurpleFour">
+      <section className="flex flex-col justify-around w-16 h-auto p-4 bg-darkPurpleFour">
         <HomeSVG
           activeTab={activeTab}
           value="Home"

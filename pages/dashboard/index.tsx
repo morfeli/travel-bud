@@ -34,16 +34,20 @@ const DashboardHomePage = ({ userInfo }: any) => {
           className={
             travelCtx.darkMode
               ? "bg-darkMode text-white overflow-hidden"
-              : "bg-white overflow-hidden"
+              : "bg-slate-100 overflow-hidden"
           }
         >
-          <DashboardHero userInfo={userInfo} />
+          <DashboardHero
+            userInfo={userInfo}
+            isMobile={isMobile}
+            innerWidth={innerWidth}
+          />
           <Venues
             error={travelCtx.error}
             loading={travelCtx.loading}
             data={travelCtx.data}
           />
-          <Categories />
+          <Categories isMobile={isMobile} innerWidth={innerWidth} />
           <PopularPlaces />
 
           <UserNavigation isMobile={isMobile} innerWidth={innerWidth} />
@@ -54,7 +58,30 @@ const DashboardHomePage = ({ userInfo }: any) => {
     return (
       <>
         <Header />
-        <UserNavigation isMobile={isMobile} innerWidth={innerWidth} />
+
+        <div
+          className={
+            travelCtx.darkMode
+              ? "bg-darkMode text-white overflow-hidden flex"
+              : "bg-white overflow-hidden flex"
+          }
+        >
+          <UserNavigation isMobile={isMobile} innerWidth={innerWidth} />
+          <div className="flex flex-col w-screen">
+            <DashboardHero
+              userInfo={userInfo}
+              isMobile={isMobile}
+              innerWidth={innerWidth}
+            />
+            <Venues
+              error={travelCtx.error}
+              loading={travelCtx.loading}
+              data={travelCtx.data}
+            />
+            <Categories isMobile={isMobile} innerWidth={innerWidth} />
+            <PopularPlaces />
+          </div>
+        </div>
       </>
     );
   }

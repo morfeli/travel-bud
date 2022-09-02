@@ -15,21 +15,51 @@ export interface CategoryType {
   value: string;
 }
 
-export const Categories = () => {
-  return (
-    <div className="grid grid-cols-3 gap-12 p-4 justify-items-center sm:grid-cols-4">
-      <BeachSVG value="beach" />
-      <SpaSVG value="spa" />
-      <MovieSVG value="movie" />
-      <HotelSVG value="hotel" />
-      <CoffeeSVG value="coffee" />
-      <JuiceSVG value="juice" />
-      <ParkSVG value="park" />
-      <BarSVG value="bar" />
-      <GymSVG value="gym" />
-      <FoodSVG value="food" />
-      <ArtSVG value="art" />
-      <ClubSVG value="club" />
-    </div>
-  );
+type CategoriesProp = {
+  isMobile: boolean;
+  innerWidth: number;
+};
+
+export const Categories = ({ isMobile, innerWidth }: CategoriesProp) => {
+  if (isMobile) {
+    return (
+      <section>
+        <h1 className="text-2xl text-center">Categories</h1>
+        <div className="grid grid-cols-3 gap-12 p-4 justify-items-center sm:grid-cols-4">
+          <BeachSVG value="beach" />
+          <SpaSVG value="spa" />
+          <MovieSVG value="movie" />
+          <HotelSVG value="hotel" />
+          <CoffeeSVG value="coffee" />
+          <JuiceSVG value="juice" />
+          <ParkSVG value="park" />
+          <BarSVG value="bar" />
+          <GymSVG value="gym" />
+          <FoodSVG value="food" />
+          <ArtSVG value="art" />
+          <ClubSVG value="club" />
+        </div>
+      </section>
+    );
+  } else {
+    return (
+      <section>
+        <h1 className="text-2xl text-center">Categories</h1>
+        <div className="grid grid-cols-3 gap-12 p-4 justify-items-center sm:grid-cols-4">
+          <BeachSVG value="beach" />
+          <SpaSVG value="spa" />
+          <MovieSVG value="movie" />
+          <HotelSVG value="hotel" />
+          <CoffeeSVG value="coffee" />
+          <JuiceSVG value="juice" />
+          <ParkSVG value="park" />
+          <BarSVG value="bar" />
+          <GymSVG value="gym" />
+          <FoodSVG value="food" />
+          <ArtSVG value="art" />
+          <ClubSVG value="club" />
+        </div>
+      </section>
+    );
+  }
 };

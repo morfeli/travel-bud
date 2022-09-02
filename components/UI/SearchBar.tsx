@@ -32,7 +32,7 @@ export const SearchBar = () => {
           name="search"
           type="text"
           placeholder="Search for a nearby venue"
-          className="py-2 pl-2 border-2 outline-none w-60 border-darkPurpleFour rounded-tl-md rounded-bl-md"
+          className="py-2 pl-2 border-4 outline-none w-60 border-darkPurpleFour rounded-tl-md rounded-bl-md"
           onChange={(e) => setSearchKey(e.target.value)}
         />
         <button

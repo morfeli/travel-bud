@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+
 import moment from "moment";
 
 import { useTravelContext } from "../helper-functions/useTravelContext";
@@ -16,9 +17,15 @@ type DashboardHeroProps = {
     userName: string;
     objectId: string;
   };
+  isMobile: boolean;
+  innerWidth: number;
 };
 
-export const DashboardHero = ({ userInfo }: DashboardHeroProps) => {
+export const DashboardHero = ({
+  userInfo,
+  isMobile,
+  innerWidth,
+}: DashboardHeroProps) => {
   const travelCtx = useTravelContext();
   const [toggleSwitch, setToggleSwitch] = useState<boolean>(false);
   const [message, setMessage] = useState<string>("");
@@ -51,60 +58,93 @@ export const DashboardHero = ({ userInfo }: DashboardHeroProps) => {
     animate: { x: 30 },
   };
 
-  return (
-    <motion.section
-      className="flex flex-col justify-between px-2 py-8 sm:px-4"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 1 }}
-    >
-      <div className="flex justify-between pt-2">
-        <div className="flex">
-          <div className="w-12 h-12 rounded-full bg-lightpurpleOne" />
-          <div className="pl-2">
-            <h1 className="text-sm">
-              {userInfo.firstName} {userInfo.lastName}
-            </h1>
-            <p className="text-sm">{userInfo.userName}</p>
+  if (isMobile) {
+    return (
+      <motion.section
+        className="flex flex-col justify-between px-2 py-8 sm:px-4"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1 }}
+      >
+        <div className="sm:flex sm:justify-between">
+          <div className="flex justify-between pt-2 text-md">
+            <div className="flex">
+              <div className="w-12 h-12 rounded-full bg-lightpurpleOne" />
+              <div className="pl-2">
+                <h1>
+                  {userInfo.firstName} {userInfo.lastName}
+                </h1>
+                <p>{userInfo.userName}</p>
+              </div>
+            </div>
           </div>
-        </div>
-        <div className="flex flex-col items-center">
-          {!travelCtx.darkMode ? <SunSVG /> : <MoonSVG />}
 
-          <button
-            onClick={toggleSwitchHandler}
-            className="flex items-center justify-start h-6 p-1 mt-2 bg-slate-300 w-14 rounded-2xl"
-          >
-            <motion.div
-              variants={toggleSwitchVariants}
-              initial={"initial"}
-              animate={toggleSwitch ? "animate" : "initial"}
-              className="w-4 h-4 rounded-full bg-lightpurpleThree"
-            ></motion.div>
-          </button>
-        </div>
-      </div>
-
-      {travelCtx.userLocation && (
-        <div className="flex py-4">
-          <PinSVG />
-          <span>
-            {travelCtx.userLocation.locality}, {travelCtx.userLocation.city},{" "}
-            {travelCtx.userLocation.principalSubdivision}
-          </span>
-        </div>
-      )}
-
-      <div className="pt-4 sm:flex sm:justify-between">
-        <div className="">
-          <p>
-            {message}, {userInfo.firstName}.
-          </p>
-          <p className="text-2xl">Where do you want to go?</p>
+          {travelCtx.userLocation && (
+            <div className="flex py-4 text-lg">
+              <PinSVG />
+              <span>
+                {travelCtx.userLocation.locality}, {travelCtx.userLocation.city}
+                , {travelCtx.userLocation.principalSubdivision}
+              </span>
+            </div>
+          )}
         </div>
 
-        <SearchBar />
-      </div>
-    </motion.section>
-  );
+        <div className="pt-4 sm:flex sm:justify-between">
+          <div className="">
+            <p>
+              {message}, {userInfo.firstName}.
+            </p>
+            <p className="text-2xl">Where do you want to go?</p>
+          </div>
+
+          <SearchBar />
+        </div>
+      </motion.section>
+    );
+  } else {
+    return (
+      <motion.section
+        className="flex flex-col px-2 py-8 sm:px-4"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1 }}
+      >
+        <div className="flex justify-between">
+          <div className="flex justify-between pt-2">
+            <div className="flex">
+              <div className="w-12 h-12 rounded-full bg-lightpurpleOne" />
+              <div className="pl-2">
+                <h1 className="text-lg">
+                  {userInfo.firstName} {userInfo.lastName}
+                </h1>
+                <p className="text-sm">{userInfo.userName}</p>
+              </div>
+            </div>
+          </div>
+
+          {travelCtx.userLocation && (
+            <div className="flex py-4">
+              <PinSVG />
+              <span>
+                {travelCtx.userLocation.locality}, {travelCtx.userLocation.city}
+                , {travelCtx.userLocation.principalSubdivision}
+              </span>
+            </div>
+          )}
+        </div>
+
+        <div className="pt-4 sm:flex sm:justify-between">
+          <div className="">
+            <p>
+              {message}, {userInfo.firstName}.
+            </p>
+            <p className="text-2xl">Where do you want to go?</p>
+          </div>
+
+          <SearchBar />
+        </div>
+      </motion.section>
+    );
+  }
 };

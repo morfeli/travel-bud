@@ -14,7 +14,7 @@ class MyDocument extends Document {
             rel="stylesheet"
           />
         </Head>
-        <body className="pb-16 font-Chillax">
+        <body className="pb-12 font-Chillax md:pb-0">
           <Main />
           <div id="modal-root"></div>
           <NextScript />
