@@ -2,6 +2,7 @@ import { Data as iData } from "./SearchBar";
 import { motion } from "framer-motion";
 import { HeartSVG } from "../Icons/HeartSVG";
 import { useEffect, useState } from "react";
+import { PrivateSlider } from "./PrivateSlider";
 
 type DestinationCardProps = {
   error: boolean;
@@ -11,6 +12,7 @@ type DestinationCardProps = {
 
 export const Venues = ({ error, loading, data }: DestinationCardProps) => {
   const [test, setTest] = useState<boolean>(false);
+  const [selectedTitle, setSelectedTitle] = useState<string>("");
   const [placeTips, setPlaceTips] = useState([]);
   const [placePhotos, setPlacePhotos] = useState([]);
   const [loadingDetails, setLoadingDetails] = useState<boolean>(false);
@@ -23,8 +25,9 @@ export const Venues = ({ error, loading, data }: DestinationCardProps) => {
     },
   };
 
-  const fetchPlaceDetailsAndPhotos = (value: string) => {
+  const fetchPlaceDetailsAndPhotos = (value: string, title: string) => {
     setTest(true);
+    setSelectedTitle(title);
     setLoadingDetails(true);
 
     fetch(`https://api.foursquare.com/v3/places/${value}/tips`, options)
@@ -39,10 +42,6 @@ export const Venues = ({ error, loading, data }: DestinationCardProps) => {
 
     setLoadingDetails(false);
   };
-
-  useEffect(() => {
-    console.log(placePhotos);
-  }, [placePhotos, placeTips]);
 
   if (error) {
     return (
@@ -71,35 +70,34 @@ export const Venues = ({ error, loading, data }: DestinationCardProps) => {
             <h1>No text available, go check it out yourself :D </h1>
           </div>
         )}
-        <div className="grid grid-cols-5">
-          {placeTips.map((item: any) => {
-            return (
-              <div
-                className="flex p-4 m-4 bg-red-200 rounded-2xl"
-                key={item.id}
-              >
-                {item.text ? (
-                  <h1>{item.text}</h1>
-                ) : (
-                  <h1>No text available, go check it out yourself :D</h1>
-                )}
-              </div>
-            );
-          })}
-          {placePhotos.map((photo: any, i: number) => {
-            const prefix = photo.prefix;
-            const suffix = photo.suffix;
-            const source = `${prefix}${suffix}`;
-            console.log(source);
-            return <p key={i}>hello</p>;
-          })}
+        <div className="flex flex-col pt-8">
+          <h1 className="self-center text-lg">
+            User reviews for <span className="text-2xl">{selectedTitle}</span>
+          </h1>
+          <ul>
+            {placeTips.map((item: any) => {
+              return (
+                <li
+                  className="flex p-4 m-4 list-none bg-red-200 rounded-2xl"
+                  key={item.id}
+                >
+                  {item.text ? (
+                    <h1 className="text-sm">{item.text}</h1>
+                  ) : (
+                    <h1>No text available, go check it out yourself :D</h1>
+                  )}
+                </li>
+              );
+            })}
+          </ul>
+          <PrivateSlider placePhotos={placePhotos} />
         </div>
       </section>
     );
   }
 
   return (
-    <section className="flex flex-col py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:mx-auto sm:justify-items-center sm:px-6 md:grid-cols-4 lg:grid-cols-6">
+    <section className="flex flex-col py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:mx-auto sm:justify-items-center sm:px-6 md:grid-cols-4 xl:grid-cols-6">
       {data.map((item, i) => {
         return (
           <motion.div
@@ -108,7 +106,7 @@ export const Venues = ({ error, loading, data }: DestinationCardProps) => {
               translateX: i % 2 === 0 ? -50 : 50,
               translateY: -50,
             }}
-            onClick={() => fetchPlaceDetailsAndPhotos(item.fsq_id)}
+            onClick={() => fetchPlaceDetailsAndPhotos(item.fsq_id, item.name)}
             animate={{ opacity: 1, translateX: 0, translateY: 0 }}
             transition={{ duration: 0.8, delay: i * 0.2 }}
             key={item.fsq_id}
