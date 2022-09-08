@@ -19,7 +19,7 @@ export const Header = () => {
   };
 
   return (
-    <header className="flex justify-between p-2 bg-darkpurpleTwo">
+    <header className="flex justify-between p-2 bg-darkpurpleTwo md:rounded-full md:m-2">
       <h1 className="text-white">FourSquare Venue Locator</h1>
       <div className="flex items-center justify-between w-24">
         {!travelCtx.darkMode ? <SunSVG /> : <MoonSVG />}

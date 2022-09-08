@@ -1,10 +1,12 @@
 import { ActiveTab as SaveSVGProps } from "../UI/UserNavigation";
 import classNames from "classnames";
-export const SaveSVG = ({ activeTab, value, setTab }: SaveSVGProps) => {
+import { useTravelContext } from "../helper-functions/useTravelContext";
+export const SaveSVG = ({ value, setTab }: SaveSVGProps) => {
+  const travelCtx = useTravelContext();
   return (
     <div
       className={classNames("p-1 scale-150 rounded-md cursor-pointer md:w-8", {
-        "bg-white": activeTab === "Save",
+        "bg-white": travelCtx.activeTab === "Save",
       })}
       onClick={() => setTab(value)}
     >

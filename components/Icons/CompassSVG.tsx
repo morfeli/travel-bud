@@ -1,11 +1,13 @@
 import { ActiveTab as CompassSVGProps } from "../UI/UserNavigation";
 import classNames from "classnames";
+import { useTravelContext } from "../helper-functions/useTravelContext";
 
-export const CompassSVG = ({ activeTab, value, setTab }: CompassSVGProps) => {
+export const CompassSVG = ({ value, setTab }: CompassSVGProps) => {
+  const travelCtx = useTravelContext();
   return (
     <div
       className={classNames("p-1 scale-150 rounded-md cursor-pointer md:w-8", {
-        "bg-white": activeTab === "Compass",
+        "bg-white": travelCtx.activeTab === "Compass",
       })}
       onClick={() => setTab(value)}
     >

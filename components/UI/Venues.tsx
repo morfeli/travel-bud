@@ -1,16 +1,25 @@
 import { Data as iData } from "./SearchBar";
 import { motion } from "framer-motion";
 import { HeartSVG } from "../Icons/HeartSVG";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { PrivateSlider } from "./PrivateSlider";
+import { SaveButton } from "./SaveButton";
 
 type DestinationCardProps = {
   error: boolean;
   loading: boolean;
   data: iData[];
+  email: string;
+  objectID: string;
 };
 
-export const Venues = ({ error, loading, data }: DestinationCardProps) => {
+export const Venues = ({
+  error,
+  loading,
+  data,
+  email,
+  objectID,
+}: DestinationCardProps) => {
   const [test, setTest] = useState<boolean>(false);
   const [selectedTitle, setSelectedTitle] = useState<string>("");
   const [placeTips, setPlaceTips] = useState([]);
@@ -25,7 +34,15 @@ export const Venues = ({ error, loading, data }: DestinationCardProps) => {
     },
   };
 
-  const fetchPlaceDetailsAndPhotos = (value: string, title: string) => {
+  const fetchPlaceDetailsAndPhotos = (
+    value: string,
+    title: string,
+    e: React.SyntheticEvent
+  ) => {
+    let target = e.target as HTMLElement;
+    if (target.nodeName === "svg") {
+      return;
+    }
     setTest(true);
     setSelectedTitle(title);
     setLoadingDetails(true);
@@ -106,17 +123,26 @@ export const Venues = ({ error, loading, data }: DestinationCardProps) => {
               translateX: i % 2 === 0 ? -50 : 50,
               translateY: -50,
             }}
-            onClick={() => fetchPlaceDetailsAndPhotos(item.fsq_id, item.name)}
+            onClick={(e) => {
+              fetchPlaceDetailsAndPhotos(item.fsq_id, item.name, e);
+            }}
             animate={{ opacity: 1, translateX: 0, translateY: 0 }}
             transition={{ duration: 0.8, delay: i * 0.2 }}
             key={item.fsq_id}
             className="relative flex flex-col items-center self-center p-1 m-2 text-center rounded-md cursor-pointer justify-evenly w-80 bg-lightpurpleOne sm:w-52 md:w-40 md:justify-center"
           >
-            <button className="absolute p-1 bg-white rounded-md right-2 top-1">
-              <HeartSVG />
-            </button>
-            <div className="pt-2">
-              <h2 className="px-2 text-xl md:pt-4">{item.name}</h2>
+            <div className="absolute p-1 bg-white rounded-md right-2 top-1">
+              <SaveButton
+                itemID={item.fsq_id}
+                name={item.name}
+                address={item.location.address}
+                locality={item.location.locality}
+                email={email}
+                objectID={objectID}
+              />
+            </div>
+            <div className="p-2">
+              <h2 className="px-6 text-xl md:pt-4">{item.name}</h2>
               <p className="text-md">
                 {item.location.address}, {item.location.locality}
               </p>

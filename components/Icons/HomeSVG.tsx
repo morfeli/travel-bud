@@ -1,11 +1,13 @@
 import { ActiveTab as HomeSVGProps } from "../UI/UserNavigation";
 import classNames from "classnames";
+import { useTravelContext } from "../helper-functions/useTravelContext";
 
-export const HomeSVG = ({ activeTab, value, setTab }: HomeSVGProps) => {
+export const HomeSVG = ({ value, setTab }: HomeSVGProps) => {
+  const travelCtx = useTravelContext();
   return (
     <div
       className={classNames("p-1 scale-150 rounded-md cursor-pointer md:w-8", {
-        "bg-white": activeTab === "Home",
+        "bg-white": travelCtx.activeTab === "Home",
       })}
       onClick={() => setTab(value)}
     >

@@ -6,8 +6,6 @@ import React, {
   createContext,
 } from "react";
 
-import { useSession } from "next-auth/react";
-
 type TravelProviderProps = {
   children: React.ReactNode;
 };
@@ -15,14 +13,10 @@ type TravelProviderProps = {
 type TravelAppContextType = {
   data: any[];
   nearByData: any[];
+  activeTab: string;
   userSearch: string;
   loading: boolean;
   error: boolean;
-  firstName: string;
-  lastName: string;
-  userName: string;
-  email: string;
-  objectID: string;
   darkMode: boolean;
   mapCoordinates: {
     lat: number;
@@ -37,6 +31,7 @@ type TravelAppContextType = {
     locality: string;
     principalSubdivision: string;
   };
+  toggleTab: (value: string) => void;
   toggleUserSearch: (value: string) => void;
   fetchData: () => void;
   toggleDarkMode: () => void;
@@ -46,14 +41,10 @@ type TravelAppContextType = {
 const travelAppDefaultState = {
   data: [""],
   nearByData: [""],
+  activeTab: "",
   userSearch: "",
   loading: false,
   error: false,
-  firstName: "",
-  lastName: "",
-  userName: "",
-  email: "",
-  objectID: "",
   darkMode: false,
   mapCoordinates: {
     lat: 0,
@@ -68,6 +59,7 @@ const travelAppDefaultState = {
     locality: "",
     principalSubdivision: "",
   },
+  toggleTab: () => {},
   toggleUserSearch: () => {},
   fetchData: () => {},
   toggleDarkMode: () => {},
@@ -79,18 +71,12 @@ export const TravelContext = createContext<TravelAppContextType>(
 );
 
 export const TravelAppProvider = ({ children }: TravelProviderProps) => {
-  const { data: session, status } = useSession();
-
   const [userSearch, setUserSearch] = useState<string>("");
+  const [activeTab, setActiveTab] = useState<string>("Home");
   const [error, setError] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [data, setData] = useState([]);
   const [nearByData, setNearByData] = useState([]);
-  const [userName, setUserName] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
-  const [firstName, setFirstName] = useState<string>("");
-  const [lastName, setLastName] = useState<string>("");
-  const [objectID, setObjectID] = useState<string>("");
   const [darkMode, setDarkMode] = useState<boolean>(false);
   const [mapCoordinates, setMapCoordinates] = useState<{
     lat: number;
@@ -119,16 +105,6 @@ export const TravelAppProvider = ({ children }: TravelProviderProps) => {
       Authorization: "fsq3xR8XOiv7Lq6kjje+r8k78gDySBpeuTW6Rr3BHtZ0j2M=",
     },
   };
-
-  useEffect(() => {
-    if (status === "authenticated") {
-      setUserName(session.user.name.userName);
-      setEmail(session.user.name.email);
-      setFirstName(session.user.name.firstName);
-      setLastName(session.user.name.lastName);
-      setObjectID(session.user.name.objectId);
-    }
-  }, []);
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(
@@ -210,6 +186,10 @@ export const TravelAppProvider = ({ children }: TravelProviderProps) => {
     setMapCoordinates(value);
   }, []);
 
+  const toggleTab = useCallback((value: string) => {
+    setActiveTab(value);
+  }, []);
+
   const state = useMemo(
     () => ({
       fetchData,
@@ -218,11 +198,6 @@ export const TravelAppProvider = ({ children }: TravelProviderProps) => {
       userSearch,
       loading,
       error,
-      userName,
-      email,
-      firstName,
-      lastName,
-      objectID,
       darkMode,
       toggleDarkMode,
       mapCoordinates,
@@ -230,6 +205,8 @@ export const TravelAppProvider = ({ children }: TravelProviderProps) => {
       toggleCoordinates,
       toggleUserSearch,
       userLocation,
+      activeTab,
+      toggleTab,
     }),
     [
       fetchData,
@@ -238,11 +215,6 @@ export const TravelAppProvider = ({ children }: TravelProviderProps) => {
       userSearch,
       loading,
       error,
-      userName,
-      email,
-      firstName,
-      lastName,
-      objectID,
       toggleDarkMode,
       darkMode,
       mapCoordinates,
@@ -250,6 +222,8 @@ export const TravelAppProvider = ({ children }: TravelProviderProps) => {
       userCoordinates,
       toggleUserSearch,
       userLocation,
+      activeTab,
+      toggleTab,
     ]
   );
 
