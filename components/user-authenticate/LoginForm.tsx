@@ -55,7 +55,7 @@ export const LoginForm = () => {
 
     setForm((current) => ({
       ...current,
-      validity: {
+      valid: {
         email: emailIsValid,
         password: passwordisValid,
       },

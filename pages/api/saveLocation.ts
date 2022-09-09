@@ -34,7 +34,6 @@ export default async function saveLocationHandler(
           message: "You already saved this venue, go check it out :)",
         });
 
-        client.close();
         return;
       }
     } else if (userExists && !userAlreadySavedVenue) {
@@ -42,9 +41,9 @@ export default async function saveLocationHandler(
         { userID: objectID },
         { $addToSet: { savedVenues: { name, address, locality, fsq_id } } }
       );
-      client.close();
     }
 
     res.status(201).json({ message: "Saved!" });
+    client.close();
   }
 }

@@ -12,8 +12,15 @@ import { Categories } from "../../components/UI/Categories";
 import { Venues } from "../../components/UI/Venues";
 import classNames from "classnames";
 import { SavedProfilePage } from "../../components/Hero/SavedProfilePage";
+import { UserProfilePage } from "../../components/Hero/UserProfilePage";
 
-const DashboardHomePage = ({ userInfo, length, savedVenueData }: any) => {
+const DashboardHomePage = ({
+  userInfo,
+  length,
+  savedVenueData,
+  savedUserPosts,
+}: any) => {
+  console.log(savedVenueData);
   const travelCtx = useTravelContext();
   const [innerWidth, setInnerWidth] = useState<number>(0);
   const isMobile = innerWidth < 767;
@@ -40,12 +47,17 @@ const DashboardHomePage = ({ userInfo, length, savedVenueData }: any) => {
         <Header />
         {travelCtx.activeTab === "Home" && (
           <div className={pageStyles}>
-            <h1>User profile</h1>
+            <UserProfilePage data={savedUserPosts} />
           </div>
         )}
         {travelCtx.activeTab === "Save" && (
           <div className={pageStyles}>
-            <SavedProfilePage length={length} data={savedVenueData} />
+            <SavedProfilePage
+              length={length}
+              data={savedVenueData}
+              username={userInfo.userName}
+              objectID={userInfo.objectId}
+            />
           </div>
         )}
         {travelCtx.activeTab === "Compass" && (
@@ -83,17 +95,22 @@ const DashboardHomePage = ({ userInfo, length, savedVenueData }: any) => {
         >
           <UserNavigation isMobile={isMobile} innerWidth={innerWidth} />
           {travelCtx.activeTab === "Home" && (
-            <div className="flex flex-col w-screen">
-              <p>Home page</p>
+            <div className="flex flex-col justify-between w-screen h-screen overflow-y-scroll">
+              <UserProfilePage data={savedUserPosts} />
             </div>
           )}
           {travelCtx.activeTab === "Save" && (
             <div>
-              <SavedProfilePage length={length} data={savedVenueData} />
+              <SavedProfilePage
+                length={length}
+                data={savedVenueData}
+                username={userInfo.userName}
+                objectID={userInfo.objectId}
+              />
             </div>
           )}
           {travelCtx.activeTab === "Compass" && (
-            <div className="flex flex-col justify-between w-screen h-screen px-4 overflow-y-scroll">
+            <div className="flex flex-col justify-between w-screen h-screen overflow-y-scroll">
               <DashboardHero
                 userInfo={userInfo}
                 isMobile={isMobile}
@@ -143,22 +160,36 @@ export const getServerSideProps = async (context: any) => {
       objectId,
     };
 
-    const savedVenue: any = [];
+    let savedVenue: any = [];
+    let userPosts: any = [];
+    let length: number = 0;
 
     const client = await connectToDatabase();
 
-    await client
+    const collection = await client
       .db("morfeli-travelbud")
       .collection("saved-venues")
-      .find()
-      .forEach((post): any => savedVenue.push(post));
+      .findOne({ userID: objectId });
 
-    const length = savedVenue[0].savedVenues.length;
+    await client
+      .db("morfeli-travelbud")
+      .collection("user-posts")
+      .find()
+      .forEach((post) => userPosts.push(post));
+
+    if (!collection) {
+      savedVenue = [];
+      length = 0;
+    } else {
+      savedVenue.push(collection);
+      length = savedVenue[0].savedVenues.length;
+    }
 
     const savedVenueData = JSON.parse(JSON.stringify(savedVenue));
+    const savedUserPosts = JSON.parse(JSON.stringify(userPosts));
 
     return {
-      props: { userInfo, savedVenueData, length },
+      props: { userInfo, savedVenueData, length, savedUserPosts },
     };
   }
 };
