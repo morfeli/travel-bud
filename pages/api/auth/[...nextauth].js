@@ -40,8 +40,6 @@ export default NextAuth({
         if (!isValid) {
           client.close();
 
-          console.log(`Credentials not valid`);
-
           throw new Error("Invalid password");
         }
 
