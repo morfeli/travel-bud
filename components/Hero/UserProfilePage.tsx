@@ -7,7 +7,6 @@ type UserProfilePageProps = {
 export const UserProfilePage = ({ data }: UserProfilePageProps) => {
   return (
     <section className="flex flex-col pb-4">
-      <h1 className="self-center pt-4 text-2xl">Public User Reviews</h1>
       {data.map((post, i) => {
         const rateNum = parseInt(post.rating);
         let starArray: any = [];
@@ -17,11 +16,13 @@ export const UserProfilePage = ({ data }: UserProfilePageProps) => {
         }
 
         return (
-          <div key={post._id} className="p-2 m-4 rounded-lg bg-lightpurpleTwo">
+          <div key={post._id} className="p-4 m-4 rounded-lg bg-lightpurpleTwo">
             <div className="flex justify-between">
               <div className="flex flex-col">
-                <h1>{post.venue}</h1>
-                <p>
+                <h1 className="pb-1 text-lg font-bold border-b-2 w-fit border-darkpurpleThree">
+                  {post.venue}
+                </h1>
+                <p className="pt-2">
                   {post.address}
                   {post.localilty}
                 </p>

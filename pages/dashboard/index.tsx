@@ -99,7 +99,7 @@ const DashboardHomePage = ({
             </div>
           )}
           {travelCtx.activeTab === "Save" && (
-            <div>
+            <div className="flex justify-center w-full">
               <SavedProfilePage
                 length={length}
                 data={savedVenueData}

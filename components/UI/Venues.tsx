@@ -145,7 +145,7 @@ export const Venues = ({
               />
             </div>
             <div className="p-2">
-              <h2 className="px-6 text-xl md:pt-4">{item.name}</h2>
+              <h2 className="text-xl md:pt-4">{item.name}</h2>
               <p className="text-md">
                 {item.location.address}, {item.location.locality}
               </p>

@@ -151,15 +151,17 @@ export const SavedProfilePage = ({
 
   if (displayForm) {
     return (
-      <section className="flex flex-col items-baseline bg-slate-300 lg:rounded-md">
-        <button
+      <section className="flex flex-col bg-slate-300 md:rounded-xl">
+        <motion.button
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
           onClick={() => setDisplayForm(false)}
-          className="px-4 py-2 mt-4 ml-4 rounded-md bg-medpurpleOne"
+          className="self-start px-4 py-2 mt-4 ml-4 rounded-md bg-medpurpleOne"
         >
           Go Back
-        </button>
+        </motion.button>
         <form
-          className="flex flex-col justify-around h-screen py-8"
+          className="flex flex-col justify-around h-screen py-8 "
           onSubmit={submitFormHandler}
         >
           <h1 className="self-center w-3/4 pb-8 text-2xl text-center border-b-2 border-lightpurpleThree">
@@ -187,7 +189,7 @@ export const SavedProfilePage = ({
               id="userPost"
               name="userPost"
               placeholder="How'd it go?"
-              className="self-center p-4 mt-4 border-2 rounded-lg shadow-xl shadow-lightpurpleTwo border-darkpurpleThree"
+              className="self-center p-4 mt-4 border-2 rounded-lg shadow-xl cursor-pointer shadow-lightpurpleTwo border-darkpurpleThree"
             />
           </div>
           <div className="flex flex-col items-center">
@@ -217,7 +219,7 @@ export const SavedProfilePage = ({
     }
 
     return (
-      <section className="py-10">
+      <section className="p-10">
         <div className="flex items-center justify-between w-48 mx-auto">
           <div className="flex items-center justify-center w-10 h-10 rounded-full bg-medpurpleOne">
             {length}
@@ -241,8 +243,8 @@ export const SavedProfilePage = ({
                   )
                 }
               >
-                <h1>{item.name}</h1>
-                <p>
+                <h1 className="text-center">{item.name}</h1>
+                <p className="text-center">
                   {item.address}, {item.locality}
                 </p>
               </motion.div>
@@ -254,6 +256,13 @@ export const SavedProfilePage = ({
       </section>
     );
   } else {
-    return <section>Go save some places to check out...</section>;
+    return (
+      <section className="flex flex-col items-center justify-center h-screen w-90vw">
+        <p className="text-center">
+          Visit the Explore tab and save some places to check out. Come back
+          here once you have created a saved list.
+        </p>
+      </section>
+    );
   }
 };

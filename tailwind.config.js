@@ -21,6 +21,7 @@ module.exports = {
       },
       width: {
         "375px": "375px",
+        "90vw": "90vw",
       },
     },
     fontFamily: {

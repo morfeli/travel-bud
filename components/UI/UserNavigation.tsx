@@ -31,7 +31,7 @@ export const UserNavigation = ({ isMobile }: UserNavigationProps) => {
     );
   } else {
     return (
-      <section className="flex flex-col justify-around w-16 h-screen p-4 m-2 rounded-full bg-darkPurpleFour">
+      <section className="flex flex-col justify-around w-16 h-screen p-4 m-1 rounded-full bg-darkPurpleFour">
         <HomeSVG value="Home" setTab={setActiveTabHandler} />
         <SaveSVG value="Save" setTab={setActiveTabHandler} />
         <CompassSVG value="Compass" setTab={setActiveTabHandler} />
