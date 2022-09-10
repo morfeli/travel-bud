@@ -57,5 +57,21 @@ export default NextAuth({
       },
     }),
   ],
+  callbacks: {
+    jwt: ({ token, user }) => {
+      if (user) {
+        token = user;
+      }
+
+      return token;
+    },
+    session: ({ session, token }) => {
+      if (token) {
+        session.id = token;
+      }
+
+      return session;
+    },
+  },
   secret: "MUNKNATION",
 });
