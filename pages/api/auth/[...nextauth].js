@@ -33,8 +33,10 @@ export default NextAuth({
           throw new Error("No user found!");
         }
 
-        const userPW = credentials.password;
-        const isValid = await comparePasswords(userPW, user.password);
+        const isValid = await comparePasswords(
+          credentials.password,
+          user.password
+        );
         if (!isValid) {
           client.close();
 
