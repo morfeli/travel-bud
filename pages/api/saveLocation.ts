@@ -1,5 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { connectToDatabase } from "../../components/helper-functions/HelperFunctions";
+// const mongodb = require("mongodb");
+
+// const int32 = mongodb.Int32;
 
 export default async function saveLocationHandler(
   req: NextApiRequest,
@@ -8,7 +11,16 @@ export default async function saveLocationHandler(
   if (req.method === "POST") {
     const data = req.body;
 
-    const { fsq_id, name, address, locality, email, objectID } = data;
+    const {
+      fsq_id,
+      name,
+      address,
+      locality,
+      email,
+      objectID,
+      venueLat,
+      venueLon,
+    } = data;
     const client = await connectToDatabase();
 
     const db = client.db("morfeli-travelbud");
@@ -26,24 +38,38 @@ export default async function saveLocationHandler(
       await db.collection("saved-venues").insertOne({
         userID: objectID,
         email: email,
-        savedVenues: [{ name, address, locality, fsq_id }],
+        savedVenues: [{ name, address, locality, fsq_id, venueLat, venueLon }],
+      });
+
+      res.status(201).json({
+        message: "Venue has been saved, go check it out :)",
       });
     } else if (userExists && userAlreadySavedVenue) {
-      if (userAlreadySavedVenue) {
-        res.status(201).json({
-          message: "You already saved this venue, go check it out :)",
-        });
+      res.status(201).json({
+        message: "You already saved this venue, go check it out :)",
+      });
 
-        return;
-      }
+      return;
     } else if (userExists && !userAlreadySavedVenue) {
-      db.collection("saved-venues").updateOne(
+      await db.collection("saved-venues").updateOne(
         { userID: objectID },
-        { $addToSet: { savedVenues: { name, address, locality, fsq_id } } }
+        {
+          $addToSet: {
+            savedVenues: {
+              name,
+              address,
+              locality,
+              fsq_id,
+              venueLat,
+              venueLon,
+            },
+          },
+        }
       );
+
+      res.status(201).json({ message: "Saved!" });
     }
 
-    res.status(201).json({ message: "Saved!" });
     client.close();
   }
 }

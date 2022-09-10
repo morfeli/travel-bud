@@ -20,7 +20,6 @@ const DashboardHomePage = ({
   savedVenueData,
   savedUserPosts,
 }: any) => {
-  console.log(savedVenueData);
   const travelCtx = useTravelContext();
   const [innerWidth, setInnerWidth] = useState<number>(0);
   const isMobile = innerWidth < 767;

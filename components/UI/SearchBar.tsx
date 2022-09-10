@@ -8,6 +8,12 @@ export interface Data {
     address: string;
     locality: string;
   };
+  geocodes: {
+    main: {
+      latitude: number | string;
+      longitude: number | string;
+    };
+  };
 }
 [];
 

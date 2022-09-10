@@ -8,6 +8,8 @@ type SaveButtonProps = {
   locality: string;
   email: string;
   objectID: string;
+  venueLat: string | number;
+  venueLon: string | number;
 };
 
 export const SaveButton = ({
@@ -17,8 +19,9 @@ export const SaveButton = ({
   locality,
   email,
   objectID,
+  venueLat,
+  venueLon,
 }: SaveButtonProps) => {
-  console.log(objectID);
   const [userSaved, setUserSaved] = useState<boolean>(false);
 
   const toggleSaveStyle = () => {
@@ -35,6 +38,8 @@ export const SaveButton = ({
       locality: locality,
       email: email,
       objectID: objectID,
+      venueLat: venueLat,
+      venueLon: venueLon,
     };
 
     setTimeout(() => {

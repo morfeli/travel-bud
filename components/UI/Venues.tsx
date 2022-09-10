@@ -1,7 +1,7 @@
 import { Data as iData } from "./SearchBar";
 import { motion } from "framer-motion";
-import { HeartSVG } from "../Icons/HeartSVG";
-import React, { useEffect, useState } from "react";
+
+import { useState } from "react";
 import { PrivateSlider } from "./PrivateSlider";
 import { SaveButton } from "./SaveButton";
 
@@ -116,6 +116,7 @@ export const Venues = ({
   return (
     <section className="flex flex-col py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:mx-auto sm:justify-items-center sm:px-6 md:grid-cols-4 xl:grid-cols-6">
       {data.map((item, i) => {
+        console.log(item);
         return (
           <motion.div
             initial={{
@@ -137,6 +138,8 @@ export const Venues = ({
                 name={item.name}
                 address={item.location.address}
                 locality={item.location.locality}
+                venueLat={item.geocodes.main.latitude}
+                venueLon={item.geocodes.main.longitude}
                 email={email}
                 objectID={objectID}
               />

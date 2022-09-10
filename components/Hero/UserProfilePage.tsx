@@ -6,8 +6,8 @@ type UserProfilePageProps = {
 
 export const UserProfilePage = ({ data }: UserProfilePageProps) => {
   return (
-    <section className="flex flex-col h-screen">
-      <h1 className="self-center">Public User Reviews</h1>
+    <section className="flex flex-col pb-4">
+      <h1 className="self-center pt-4 text-2xl">Public User Reviews</h1>
       {data.map((post, i) => {
         const rateNum = parseInt(post.rating);
         let starArray: any = [];
@@ -17,11 +17,21 @@ export const UserProfilePage = ({ data }: UserProfilePageProps) => {
         }
 
         return (
-          <div key={post._id} className="p-2 m-4 bg-red-300 rounded-lg">
-            <p>{post.username}</p>
-            <h1>{post.venue}</h1>
-            <p>{post.post}</p>
-            <div className="flex">
+          <div key={post._id} className="p-2 m-4 rounded-lg bg-lightpurpleTwo">
+            <div className="flex justify-between">
+              <div className="flex flex-col">
+                <h1>{post.venue}</h1>
+                <p>
+                  {post.address}
+                  {post.localilty}
+                </p>
+              </div>
+              <div>
+                <h1>@{post.username}</h1>
+              </div>
+            </div>
+            <p className="py-4 first-letter:capitalize">{post.post}</p>
+            <div className="flex justify-end">
               {starArray.map((item: any, i: number) => {
                 return <StarSVG key={i} />;
               })}

@@ -3,6 +3,7 @@ import { useTravelContext } from "../helper-functions/useTravelContext";
 import { useState } from "react";
 import { SunSVG } from "../Icons/SunSVG";
 import { MoonSVG } from "../Icons/MoonSVG";
+import { LogOutBtn } from "../UI/LogOutBtn";
 
 export const Header = () => {
   const travelCtx = useTravelContext();
@@ -21,7 +22,7 @@ export const Header = () => {
   return (
     <header className="flex justify-between p-2 bg-darkpurpleTwo md:rounded-full md:m-2">
       <h1 className="text-white">FourSquare Venue Locator</h1>
-      <div className="flex items-center justify-between w-24">
+      <div className="flex items-center justify-between w-44">
         {!travelCtx.darkMode ? <SunSVG /> : <MoonSVG />}
 
         <button
@@ -35,6 +36,7 @@ export const Header = () => {
             className="w-4 h-4 rounded-full bg-lightpurpleThree"
           ></motion.div>
         </button>
+        <LogOutBtn />
       </div>
     </header>
   );

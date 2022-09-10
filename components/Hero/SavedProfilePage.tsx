@@ -1,6 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import { motion } from "framer-motion";
+
 import { SortButton } from "../UI/SortButton";
+import { Map } from "../UI/Map";
 
 type SavedProfilePageProps = {
   length: number;
@@ -49,14 +52,29 @@ export const SavedProfilePage = ({
   objectID,
 }: SavedProfilePageProps) => {
   const [displayForm, setDisplayForm] = useState<boolean>(false);
-  const [venueDetails, setVenueDetails] = useState<string>("");
+  const [venueDetails, setVenueDetails] = useState<{
+    name: string;
+    address: string;
+    localilty: string;
+  }>({ name: "", address: "", localilty: "" });
   const [formInput, setFormInput] = useState<formInput>(initialFormState);
   const [rateValue, setRateValue] = useState<string>("");
+  const [venueCords, setVenueCords] = useState<[{ lat: number; lng: number }]>([
+    { lat: 0, lng: 0 },
+  ]);
 
   const router = useRouter();
 
-  const displayFormandPassDataHandler = (name: string) => {
-    setVenueDetails(name);
+  const displayFormandPassDataHandler = (
+    name: string,
+    address: string,
+    localilty: string
+  ) => {
+    setVenueDetails({
+      name: name,
+      address: address,
+      localilty: localilty,
+    });
     setDisplayForm(true);
   };
 
@@ -85,12 +103,18 @@ export const SavedProfilePage = ({
     }
 
     if (postIsValid && rateIsValid) {
+      const name = venueDetails.name;
+      const address = venueDetails.address;
+      const localilty = venueDetails.localilty;
+
       const userData = {
         post,
         rateValue,
         username,
         objectID,
-        venueDetails,
+        name,
+        address,
+        localilty,
       };
 
       fetch("/api/savePost", {
@@ -108,21 +132,44 @@ export const SavedProfilePage = ({
     }
   };
 
+  useEffect(() => {
+    if (data.length > 0) {
+      let venueCords: any = [];
+
+      data[0].savedVenues.map((item: any) => {
+        const venueMarkers = {
+          lat: item.venueLat,
+          lng: item.venueLon,
+        };
+
+        venueCords.push(venueMarkers);
+      });
+
+      setVenueCords(venueCords);
+    }
+  }, []);
+
   if (displayForm) {
     return (
-      <section>
+      <section className="flex flex-col items-baseline bg-slate-300 lg:rounded-md">
+        <button
+          onClick={() => setDisplayForm(false)}
+          className="px-4 py-2 mt-4 ml-4 rounded-md bg-medpurpleOne"
+        >
+          Go Back
+        </button>
         <form
-          className="flex flex-col justify-around h-screen py-8 bg-slate-300"
+          className="flex flex-col justify-around h-screen py-8"
           onSubmit={submitFormHandler}
         >
-          <h1 className="self-center pb-8 text-2xl text-center border-b-2 border-lightpurpleThree">
+          <h1 className="self-center w-3/4 pb-8 text-2xl text-center border-b-2 border-lightpurpleThree">
             How was your time at... <br />
-            <span>{venueDetails}</span>?
+            <span>{venueDetails.name}</span>?
           </h1>
           <div className="flex flex-col">
             <p className="self-center px-2 py-4 text-center text-md">
               Leave a review regarding your experience at <br />
-              {venueDetails}.
+              {venueDetails.name}.
             </p>
             <textarea
               onChange={(e) =>
@@ -170,7 +217,7 @@ export const SavedProfilePage = ({
     }
 
     return (
-      <section className="h-screen pt-10">
+      <section className="py-10">
         <div className="flex items-center justify-between w-48 mx-auto">
           <div className="flex items-center justify-center w-10 h-10 rounded-full bg-medpurpleOne">
             {length}
@@ -179,19 +226,31 @@ export const SavedProfilePage = ({
         </div>
 
         <div className="grid sm:grid-cols-4">
-          {data[0].savedVenues.map((item: any, i: number) => (
-            <div
-              key={i}
-              className="p-4 m-4 rounded-md bg-lightpurpleThree"
-              onClick={() => displayFormandPassDataHandler(item.name)}
-            >
-              <h1>{item.name}</h1>
-              <p>
-                {item.address}, {item.locality}
-              </p>
-            </div>
-          ))}
+          {data[0].savedVenues.map((item: any, i: number) => {
+            return (
+              <motion.div
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                key={i}
+                className="p-4 m-4 rounded-md cursor-pointer bg-lightpurpleThree"
+                onClick={() =>
+                  displayFormandPassDataHandler(
+                    item.name,
+                    item.address,
+                    item.localilty
+                  )
+                }
+              >
+                <h1>{item.name}</h1>
+                <p>
+                  {item.address}, {item.locality}
+                </p>
+              </motion.div>
+            );
+          })}
         </div>
+
+        <Map markerCords={venueCords} />
       </section>
     );
   } else {

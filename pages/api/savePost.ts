@@ -8,7 +8,8 @@ export default async function savePosts(
   res: NextApiResponse
 ) {
   if (req.method === "POST") {
-    const { post, rateValue, username, objectID, venueDetails } = req.body;
+    const { post, rateValue, username, objectID, name, address, localilty } =
+      req.body;
 
     const client = await connectToDatabase();
 
@@ -19,7 +20,9 @@ export default async function savePosts(
       objectID: ObjectID.createFromHexString(objectID),
       post: post,
       rating: rateValue,
-      venue: venueDetails,
+      venue: name,
+      address: address,
+      localilty: localilty,
     });
 
     client.close();
