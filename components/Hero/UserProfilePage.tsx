@@ -15,7 +15,7 @@ export const UserProfilePage = ({ data }: UserProfilePageProps) => {
   });
 
   return (
-    <section className="flex flex-col pb-4">
+    <section className="flex flex-col pb-4 h-screen">
       {data.map((post, i) => {
         const rateNum = parseInt(post.rating);
         let starArray: any = [];
