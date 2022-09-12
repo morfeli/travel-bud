@@ -37,8 +37,6 @@ export const SortButton = ({ ratingValues, captureRate }: SortButtonProps) => {
     motionDivStyle = classNames(
       "absolute z-40 top-20 flex w-72 justify-around px-8 bg-white rounded-lg shadow-lg shadow-lightpurpleTwo "
     );
-  } else {
-    motionDivStyle = classNames("bg-red-300");
   }
 
   return (

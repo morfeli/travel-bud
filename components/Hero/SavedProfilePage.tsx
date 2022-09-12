@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import { useTravelContext } from "../helper-functions/useTravelContext";
 import { motion } from "framer-motion";
+import classNames from "classnames";
 
 import { SortButton } from "../UI/SortButton";
 import { Map } from "../UI/Map";
@@ -64,6 +66,22 @@ export const SavedProfilePage = ({
   ]);
 
   const router = useRouter();
+  const travelCtx = useTravelContext();
+
+  const divStyle = classNames("p-4 m-4 rounded-md cursor-pointer", {
+    "bg-lightpurpleThree": !travelCtx.darkMode,
+    "bg-white": travelCtx.darkMode,
+    "cursor-auto": displayForm,
+  });
+
+  const buttonStyle = classNames(
+    "self-start px-4 py-2 mt-4 ml-4 rounded-md border-2 border-darkpurpleThree",
+    {
+      "bg-white": !travelCtx.darkMode,
+      "bg-darkpurpleTwo": travelCtx.darkMode,
+      "text-white": travelCtx.darkMode,
+    }
+  );
 
   const displayFormandPassDataHandler = (
     name: string,
@@ -151,28 +169,30 @@ export const SavedProfilePage = ({
 
   if (displayForm) {
     return (
-      <section className="flex flex-col bg-slate-300 md:rounded-xl">
+      <section className={divStyle}>
         <motion.button
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
           onClick={() => setDisplayForm(false)}
-          className="self-start px-4 py-2 mt-4 ml-4 rounded-md bg-medpurpleOne"
+          className={buttonStyle}
         >
           Go Back
         </motion.button>
         <form
-          className="flex flex-col justify-around h-screen py-8 "
+          className="flex flex-col justify-evenly h-screen py-8 md:h-full"
           onSubmit={submitFormHandler}
         >
           <h1 className="self-center w-3/4 pb-8 text-2xl text-center border-b-2 border-lightpurpleThree">
             How was your time at... <br />
             <span>{venueDetails.name}</span>?
           </h1>
+
           <div className="flex flex-col">
             <p className="self-center px-2 py-4 text-center text-md">
               Leave a review regarding your experience at <br />
               {venueDetails.name}.
             </p>
+
             <textarea
               onChange={(e) =>
                 setFormInput((current) => ({
@@ -189,9 +209,10 @@ export const SavedProfilePage = ({
               id="userPost"
               name="userPost"
               placeholder="How'd it go?"
-              className="self-center p-4 mt-4 border-2 rounded-lg shadow-xl cursor-pointer shadow-lightpurpleTwo border-darkpurpleThree"
+              className="self-center p-4 mt-4 border-2 rounded-lg shadow-xl cursor-pointer shadow-lightpurpleTwo border-darkpurpleThree outline-none"
             />
           </div>
+
           <div className="flex flex-col items-center">
             <SortButton
               ratingValues={ratingValues}
@@ -201,7 +222,15 @@ export const SavedProfilePage = ({
 
           <button
             type="submit"
-            className="self-center p-2 mt-10 tracking-widest text-white uppercase rounded-md shadow-xl shadow-lightpurpleTwo bg-darkpurpleThree"
+            className={classNames(
+              "self-center p-2 mt-10 tracking-widest uppercase rounded-md shadow-xl shadow-lightpurpleTwo border-2 border-darkpurpleThree",
+              {
+                "bg-white": !travelCtx.darkMode,
+                "text-black": !travelCtx.darkMode,
+                "bg-darkpurpleThree": travelCtx.darkMode,
+                "text-white": travelCtx.darkMode,
+              }
+            )}
           >
             Submit
           </button>
@@ -219,22 +248,28 @@ export const SavedProfilePage = ({
     }
 
     return (
-      <section className="p-10">
-        <div className="flex items-center justify-between w-48 mx-auto">
-          <div className="flex items-center justify-center w-10 h-10 rounded-full bg-medpurpleOne">
+      <section className="p-10 h-screen overflow-y-scroll">
+        <div className="flex items-center justify-around w-48 mx-auto">
+          <div className="flex items-center justify-center w-10 h-10 rounded-full bg-darkpurpleOne text-white">
             {length}
           </div>
-          <h1 className="text-xl text-center">Saved {word}</h1>
+          <h1
+            className={classNames("text-xl, text-center", {
+              "text-white": travelCtx.darkMode,
+            })}
+          >
+            Saved {word}
+          </h1>
         </div>
 
-        <div className="grid sm:grid-cols-4">
+        <div className="grid sm:grid-cols-4 py-4">
           {data[0].savedVenues.map((item: any, i: number) => {
             return (
               <motion.div
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
                 key={i}
-                className="p-4 m-4 rounded-md cursor-pointer bg-lightpurpleThree"
+                className={divStyle}
                 onClick={() =>
                   displayFormandPassDataHandler(
                     item.name,

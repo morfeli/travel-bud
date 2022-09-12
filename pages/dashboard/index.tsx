@@ -10,9 +10,10 @@ import { UserNavigation } from "../../components/UI/UserNavigation";
 import { useTravelContext } from "../../components/helper-functions/useTravelContext";
 import { Categories } from "../../components/UI/Categories";
 import { Venues } from "../../components/UI/Venues";
-import classNames from "classnames";
 import { SavedProfilePage } from "../../components/Hero/SavedProfilePage";
 import { UserProfilePage } from "../../components/Hero/UserProfilePage";
+
+import classNames from "classnames";
 
 const DashboardHomePage = ({
   userInfo,
@@ -26,7 +27,7 @@ const DashboardHomePage = ({
 
   const changeWidth = () => setInnerWidth(window.innerWidth);
 
-  const pageStyles = classNames("bg-slate-100", "overflow-hidden", {
+  const pageStyles = classNames("bg-slate-100", "overflow-hidden pb-4", {
     "text-darkpurpleThree": travelCtx.darkMode,
     "bg-[#121212]": travelCtx.darkMode,
   });
@@ -71,11 +72,7 @@ const DashboardHomePage = ({
         )}
         {travelCtx.activeTab === "Compass" && (
           <div className={pageStyles}>
-            <DashboardHero
-              userInfo={userInfo}
-              isMobile={isMobile}
-              innerWidth={innerWidth}
-            />
+            <DashboardHero userInfo={userInfo} isMobile={isMobile} />
             <Venues
               error={travelCtx.error}
               loading={travelCtx.loading}
@@ -114,11 +111,7 @@ const DashboardHomePage = ({
           )}
           {travelCtx.activeTab === "Compass" && (
             <div className="flex flex-col justify-between w-screen h-screen overflow-y-scroll">
-              <DashboardHero
-                userInfo={userInfo}
-                isMobile={isMobile}
-                innerWidth={innerWidth}
-              />
+              <DashboardHero userInfo={userInfo} isMobile={isMobile} />
               <Venues
                 error={travelCtx.error}
                 loading={travelCtx.loading}

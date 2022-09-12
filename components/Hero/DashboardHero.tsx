@@ -1,11 +1,10 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import { useTravelContext } from "../helper-functions/useTravelContext";
 
 import moment from "moment";
+import classNames from "classnames";
 
-import { useTravelContext } from "../helper-functions/useTravelContext";
-import { SunSVG } from "../Icons/SunSVG";
-import { MoonSVG } from "../Icons/MoonSVG";
 import { PinSVG } from "../UI/PinSVG";
 import { SearchBar } from "../UI/SearchBar";
 
@@ -18,16 +17,11 @@ type DashboardHeroProps = {
     objectId: string;
   };
   isMobile: boolean;
-  innerWidth: number;
 };
 
-export const DashboardHero = ({
-  userInfo,
-  isMobile,
-  innerWidth,
-}: DashboardHeroProps) => {
+export const DashboardHero = ({ userInfo, isMobile }: DashboardHeroProps) => {
   const travelCtx = useTravelContext();
-  const [toggleSwitch, setToggleSwitch] = useState<boolean>(false);
+
   const [message, setMessage] = useState<string>("");
 
   const date = new Date();
@@ -48,15 +42,10 @@ export const DashboardHero = ({
     }
   }, [currentTime]);
 
-  const toggleSwitchHandler = () => {
-    setToggleSwitch((current) => !current);
-    travelCtx.toggleDarkMode();
-  };
-
-  const toggleSwitchVariants = {
-    initial: { x: 0 },
-    animate: { x: 30 },
-  };
+  const textStyle = classNames({
+    "text-white": travelCtx.darkMode,
+    "text-black": !travelCtx.darkMode,
+  });
 
   if (isMobile) {
     return (
@@ -71,10 +60,10 @@ export const DashboardHero = ({
             <div className="flex">
               <div className="w-12 h-12 rounded-full bg-lightpurpleOne" />
               <div className="pl-2">
-                <h1>
+                <h1 className={textStyle}>
                   {userInfo.firstName} {userInfo.lastName}
                 </h1>
-                <p>{userInfo.userName}</p>
+                <p className={textStyle}>{userInfo.userName}</p>
               </div>
             </div>
           </div>
@@ -82,7 +71,7 @@ export const DashboardHero = ({
           {travelCtx.userLocation && (
             <div className="flex py-4 text-lg">
               <PinSVG />
-              <span>
+              <span className={textStyle}>
                 {travelCtx.userLocation.locality}, {travelCtx.userLocation.city}
                 , {travelCtx.userLocation.principalSubdivision}
               </span>
@@ -91,11 +80,13 @@ export const DashboardHero = ({
         </div>
 
         <div className="pt-4 sm:flex sm:justify-between">
-          <div className="">
-            <p>
+          <div>
+            <p className={textStyle}>
               {message}, {userInfo.firstName}.
             </p>
-            <p className="text-2xl">Where do you want to go?</p>
+            <p className={classNames(textStyle, "text-2xl")}>
+              Where do you want to go?
+            </p>
           </div>
 
           <SearchBar />
@@ -115,10 +106,12 @@ export const DashboardHero = ({
             <div className="flex">
               <div className="w-12 h-12 rounded-full bg-lightpurpleOne" />
               <div className="pl-2">
-                <h1 className="text-lg">
+                <h1 className={classNames(textStyle, "text-2xl")}>
                   {userInfo.firstName} {userInfo.lastName}
                 </h1>
-                <p className="text-sm">{userInfo.userName}</p>
+                <p className={classNames(textStyle, "text-lg")}>
+                  {userInfo.userName}
+                </p>
               </div>
             </div>
           </div>
@@ -126,7 +119,7 @@ export const DashboardHero = ({
           {travelCtx.userLocation && (
             <div className="flex py-4">
               <PinSVG />
-              <span>
+              <span className={textStyle}>
                 {travelCtx.userLocation.locality}, {travelCtx.userLocation.city}
                 , {travelCtx.userLocation.principalSubdivision}
               </span>
@@ -136,10 +129,12 @@ export const DashboardHero = ({
 
         <div className="pt-4 sm:flex sm:justify-between">
           <div className="">
-            <p>
+            <p className={textStyle}>
               {message}, {userInfo.firstName}.
             </p>
-            <p className="text-2xl">Where do you want to go?</p>
+            <p className={classNames(textStyle, "text-2xl")}>
+              Where do you want to go?
+            </p>
           </div>
 
           <SearchBar />

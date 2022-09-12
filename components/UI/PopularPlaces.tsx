@@ -1,12 +1,17 @@
 import { useTravelContext } from "../helper-functions/useTravelContext";
-import { useState } from "react";
+import classNames from "classnames";
 
 export const PopularPlaces = () => {
   const travelCtx = useTravelContext();
 
+  const textStyle = classNames("text-xl text-center py-2", {
+    "text-white": travelCtx.darkMode,
+    "text-black": !travelCtx.darkMode,
+  });
+
   return (
     <section className="flex flex-col py-8">
-      <h1 className="self-center text-2xl">Popular Places Nearby</h1>
+      <h1 className={textStyle}>Popular Places Nearby</h1>
       {travelCtx.nearByData.length === 0 && (
         <p className="text-center">Loading...</p>
       )}
@@ -17,7 +22,7 @@ export const PopularPlaces = () => {
               key={item.fsq_id}
               className="flex items-center justify-center p-2 m-2 text-center rounded-md bg-lightpurpleThree"
             >
-              <p className="text-md">{item.name}</p>
+              <p className={textStyle}>{item.name}</p>
             </div>
           );
         })}
