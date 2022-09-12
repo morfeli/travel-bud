@@ -27,6 +27,7 @@ export default NextAuth({
           userName: user?.userName,
           objectId: user?._id,
         };
+
         if (!user) {
           client.close();
 
@@ -37,6 +38,7 @@ export default NextAuth({
           credentials.password,
           user.password
         );
+
         if (!isValid) {
           client.close();
 
@@ -55,21 +57,5 @@ export default NextAuth({
       },
     }),
   ],
-  callbacks: {
-    jwt: ({ token, user }) => {
-      if (user) {
-        token = user;
-      }
-
-      return token;
-    },
-    session: ({ session, token }) => {
-      if (token) {
-        session.id = token;
-      }
-
-      return session;
-    },
-  },
   secret: "MUNKNATION",
 });

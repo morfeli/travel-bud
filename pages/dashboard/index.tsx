@@ -27,9 +27,19 @@ const DashboardHomePage = ({
   const changeWidth = () => setInnerWidth(window.innerWidth);
 
   const pageStyles = classNames("bg-slate-100", "overflow-hidden", {
-    "text-white": travelCtx.darkMode,
-    "bg-[#595959]": travelCtx.darkMode,
+    "text-darkpurpleThree": travelCtx.darkMode,
+    "bg-[#121212]": travelCtx.darkMode,
   });
+
+  const desktopPageStyles = classNames(
+    "bg-slate-100",
+    "overflow-hidden",
+    "flex",
+    {
+      "text-darkpurpleThree": travelCtx.darkMode,
+      "bg-[#121212]": travelCtx.darkMode,
+    }
+  );
 
   useEffect(() => {
     changeWidth();
@@ -85,13 +95,7 @@ const DashboardHomePage = ({
       <>
         <Header />
 
-        <div
-          className={
-            travelCtx.darkMode
-              ? "bg-darkMode text-white overflow-hidden flex"
-              : "bg-white overflow-hidden flex"
-          }
-        >
+        <div className={desktopPageStyles}>
           <UserNavigation isMobile={isMobile} innerWidth={innerWidth} />
           {travelCtx.activeTab === "Home" && (
             <div className="flex flex-col justify-between w-screen h-screen overflow-y-scroll">

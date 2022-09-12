@@ -17,7 +17,7 @@ module.exports = {
         darkpurpleTwo: "#815ac0",
         darkpurpleThree: "#7251b5",
         darkPurpleFour: "#6247aa",
-        darkMode: "#595959",
+        darkMode: "#121212",
       },
       width: {
         "375px": "375px",
