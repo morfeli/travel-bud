@@ -25,6 +25,7 @@ export default async function savePosts(
       localilty: localilty,
     });
 
+    res.status(201).json({ message: "Post has been submitted!" });
     client.close();
   }
 }

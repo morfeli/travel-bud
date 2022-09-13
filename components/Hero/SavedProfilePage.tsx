@@ -6,6 +6,7 @@ import classNames from "classnames";
 
 import { SortButton } from "../UI/SortButton";
 import { Map } from "../UI/Map";
+import { Modal } from "../UI/Modal";
 
 type SavedProfilePageProps = {
   length: number;
@@ -64,6 +65,12 @@ export const SavedProfilePage = ({
   const [venueCords, setVenueCords] = useState<[{ lat: number; lng: number }]>([
     { lat: 0, lng: 0 },
   ]);
+  const [APIMessage, setAPIMessage] = useState<string | boolean>(false);
+  const [renderModal, setRenderModal] = useState<boolean>(false);
+
+  useEffect(() => {
+    APIMessage && setRenderModal((current) => !current);
+  }, [APIMessage]);
 
   const router = useRouter();
   const travelCtx = useTravelContext();
@@ -141,12 +148,8 @@ export const SavedProfilePage = ({
         body: JSON.stringify(userData),
       })
         .then((res) => res.json())
-        .then((data) => console.log(data))
+        .then((data) => setAPIMessage(data.message))
         .catch((err) => console.log(err));
-
-      setTimeout(() => {
-        router.reload();
-      }, 3);
     }
   };
 
@@ -234,6 +237,12 @@ export const SavedProfilePage = ({
           >
             Submit
           </button>
+
+          <Modal
+            active={renderModal}
+            status={APIMessage}
+            color="bg-lightpurpleOne"
+          />
         </form>
       </section>
     );

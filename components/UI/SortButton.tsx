@@ -62,7 +62,7 @@ export const SortButton = ({ ratingValues, captureRate }: SortButtonProps) => {
             {ratingValues.map((item, i) => {
               return (
                 <InnerButton
-                  key={item.id}
+                  key={i}
                   rate={item.rate}
                   captureSortOption={captureSortOption}
                   sortValue={sortValue}

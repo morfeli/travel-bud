@@ -4,13 +4,11 @@ type InnerButtonProps = {
   captureSortOption: (e: any) => void;
   sortValue: string;
   rate: string;
-  key: number;
 };
 
 export const InnerButton = ({
   rate,
   captureSortOption,
-  key,
   sortValue,
 }: InnerButtonProps) => {
   return (
