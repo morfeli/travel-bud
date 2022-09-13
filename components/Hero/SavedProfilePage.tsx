@@ -76,7 +76,7 @@ export const SavedProfilePage = ({
   useEffect(() => {
     renderModal &&
       setTimeout(() => {
-        router.push("/dashboard");
+        router.reload();
       }, 6000);
   }, [renderModal]);
 
