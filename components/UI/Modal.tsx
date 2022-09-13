@@ -1,7 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
 import classNames from "classnames";
-import { useEffect } from "react";
-import { useRouter } from "next/router";
 
 type ModalProps = {
   active: boolean;
@@ -10,7 +8,6 @@ type ModalProps = {
 };
 
 export const Modal = ({ active, status, color }: ModalProps) => {
-  const router = useRouter();
   if (!status) {
     return null;
   }
@@ -29,13 +26,6 @@ export const Modal = ({ active, status, color }: ModalProps) => {
     "rounded-md",
     color
   );
-
-  useEffect(() => {
-    active &&
-      setTimeout(() => {
-        router.reload();
-      }, 6000);
-  }, [active]);
 
   return (
     <AnimatePresence>

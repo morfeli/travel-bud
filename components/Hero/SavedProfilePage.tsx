@@ -67,10 +67,18 @@ export const SavedProfilePage = ({
   ]);
   const [APIMessage, setAPIMessage] = useState<string | boolean>(false);
   const [renderModal, setRenderModal] = useState<boolean>(false);
+  const router = useRouter();
 
   useEffect(() => {
     APIMessage && setRenderModal((current) => !current);
   }, [APIMessage]);
+
+  useEffect(() => {
+    renderModal &&
+      setTimeout(() => {
+        router.push("/dashboard");
+      }, 6000);
+  }, [renderModal]);
 
   const travelCtx = useTravelContext();
 

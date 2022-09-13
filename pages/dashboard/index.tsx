@@ -32,15 +32,11 @@ const DashboardHomePage = ({
     "bg-[#121212]": travelCtx.darkMode,
   });
 
-  const desktopPageStyles = classNames(
-    "bg-slate-100",
-    "overflow-hidden",
-    "flex",
-    {
-      "text-darkpurpleThree": travelCtx.darkMode,
-      "bg-[#121212]": travelCtx.darkMode,
-    }
-  );
+  const desktopPageStyles = classNames("overflow-hidden", "flex", {
+    "text-darkpurpleThree": travelCtx.darkMode,
+    "bg-[#121212]": travelCtx.darkMode,
+    "bg-slate-100": !travelCtx.darkMode,
+  });
 
   useEffect(() => {
     changeWidth();
