@@ -33,7 +33,7 @@ export const Modal = ({ active, status, color }: ModalProps) => {
   useEffect(() => {
     active &&
       setTimeout(() => {
-        router.replace("/dashboard");
+        router.reload();
       }, 6000);
   }, [active]);
 
