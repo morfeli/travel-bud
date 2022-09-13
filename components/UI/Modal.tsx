@@ -30,6 +30,10 @@ export const Modal = ({ active, status, color }: ModalProps) => {
     color
   );
 
+  useEffect(() => {
+    active && router.reload();
+  }, [active]);
+
   return (
     <AnimatePresence>
       {active && (

@@ -72,7 +72,6 @@ export const SavedProfilePage = ({
     APIMessage && setRenderModal((current) => !current);
   }, [APIMessage]);
 
-  const router = useRouter();
   const travelCtx = useTravelContext();
 
   const divStyle = classNames("p-4 m-4 rounded-md cursor-pointer", {
