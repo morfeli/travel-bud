@@ -179,7 +179,7 @@ export const SavedProfilePage = ({
           Go Back
         </motion.button>
         <form
-          className="flex flex-col justify-evenly h-screen py-8 md:h-full"
+          className="flex flex-col h-screen py-8 justify-evenly md:h-full"
           onSubmit={submitFormHandler}
         >
           <h1 className="self-center w-3/4 pb-8 text-2xl text-center border-b-2 border-lightpurpleThree">
@@ -209,7 +209,7 @@ export const SavedProfilePage = ({
               id="userPost"
               name="userPost"
               placeholder="How'd it go?"
-              className="self-center p-4 mt-4 border-2 rounded-lg shadow-xl cursor-pointer shadow-lightpurpleTwo border-darkpurpleThree outline-none"
+              className="self-center p-4 mt-4 border-2 rounded-lg shadow-xl outline-none cursor-pointer shadow-lightpurpleTwo border-darkpurpleThree"
             />
           </div>
 
@@ -248,9 +248,9 @@ export const SavedProfilePage = ({
     }
 
     return (
-      <section className="p-10 h-screen overflow-y-scroll">
+      <section className="p-4">
         <div className="flex items-center justify-around w-48 mx-auto">
-          <div className="flex items-center justify-center w-10 h-10 rounded-full bg-darkpurpleOne text-white">
+          <div className="flex items-center justify-center w-10 h-10 text-white rounded-full bg-darkpurpleOne">
             {length}
           </div>
           <h1
@@ -262,7 +262,7 @@ export const SavedProfilePage = ({
           </h1>
         </div>
 
-        <div className="grid sm:grid-cols-4 py-4">
+        <div className="grid py-4 sm:grid-cols-4">
           {data[0].savedVenues.map((item: any, i: number) => {
             return (
               <motion.div
