@@ -107,7 +107,7 @@ export const TravelAppProvider = ({ children }: TravelProviderProps) => {
   };
 
   useEffect(() => {
-    if (navigator.geolocation) {
+    if (navigator.geolocation.getCurrentPosition) {
       navigator.geolocation.getCurrentPosition(
         ({ coords: { latitude, longitude } }) => {
           setUserCoordinates({ lat: latitude, lng: longitude });
