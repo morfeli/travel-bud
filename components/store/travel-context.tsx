@@ -115,7 +115,21 @@ export const TravelAppProvider = ({ children }: TravelProviderProps) => {
         }
       );
     } else {
-      console.log("Geolocation is not supported");
+      fetch(
+        "https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyDyPu-w-LX0fgeVZGu7OmTK-EZsrzCmROk",
+        {
+          method: "POST",
+          headers: { "Content-type": "application/json" },
+        }
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          const lat = data.location.lat;
+          const lng = data.location.lng;
+
+          setUserCoordinates({ lat: lat, lng: lng });
+          setMapCoordinates({ lat: lat, lng: lng });
+        });
     }
   }, []);
 
