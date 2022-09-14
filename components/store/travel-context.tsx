@@ -116,17 +116,12 @@ export const TravelAppProvider = ({ children }: TravelProviderProps) => {
       );
     } else {
       fetch(
-        "https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyDyPu-w-LX0fgeVZGu7OmTK-EZsrzCmROk",
-        {
-          method: "POST",
-          headers: { "Content-type": "application/json" },
-        }
+        `https://api.ipgeolocation.io/ipgeo?apiKey=f41af4162b91492d9c162306ee8214cd`
       )
         .then((res) => res.json())
         .then((data) => {
-          const lat = data.location.lat;
-          const lng = data.location.lng;
-
+          const lat = data.latitude;
+          const lng = data.longitude;
           setUserCoordinates({ lat: lat, lng: lng });
           setMapCoordinates({ lat: lat, lng: lng });
         });
