@@ -107,12 +107,16 @@ export const TravelAppProvider = ({ children }: TravelProviderProps) => {
   };
 
   useEffect(() => {
-    navigator.geolocation.getCurrentPosition(
-      ({ coords: { latitude, longitude } }) => {
-        setUserCoordinates({ lat: latitude, lng: longitude });
-        setMapCoordinates({ lat: latitude, lng: longitude });
-      }
-    );
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        ({ coords: { latitude, longitude } }) => {
+          setUserCoordinates({ lat: latitude, lng: longitude });
+          setMapCoordinates({ lat: latitude, lng: longitude });
+        }
+      );
+    } else {
+      console.log("Geolocation is not supported");
+    }
   }, []);
 
   useEffect(() => {
