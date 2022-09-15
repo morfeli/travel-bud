@@ -114,17 +114,6 @@ export const TravelAppProvider = ({ children }: TravelProviderProps) => {
           setMapCoordinates({ lat: latitude, lng: longitude });
         }
       );
-    } else {
-      fetch(
-        `https://api.ipgeolocation.io/ipgeo?apiKey=f41af4162b91492d9c162306ee8214cd`
-      )
-        .then((res) => res.json())
-        .then((data) => {
-          const lat = data.latitude;
-          const lng = data.longitude;
-          setUserCoordinates({ lat: lat, lng: lng });
-          setMapCoordinates({ lat: lat, lng: lng });
-        });
     }
   }, []);
 
