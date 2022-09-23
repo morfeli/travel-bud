@@ -4,7 +4,7 @@ import classNames from "classnames";
 export const PopularPlaces = () => {
   const travelCtx = useTravelContext();
 
-  const textStyle = classNames("text-xl text-center py-2", {
+  const textStyle = classNames("text-sm text-center p-4", {
     "text-white": travelCtx.darkMode,
     "text-black": !travelCtx.darkMode,
   });
@@ -20,7 +20,7 @@ export const PopularPlaces = () => {
           return (
             <div
               key={item.fsq_id}
-              className="flex items-center justify-center p-2 m-2 text-center rounded-md bg-lightpurpleThree"
+              className="flex items-center justify-center m-2 text-center rounded-md bg-lightpurpleThree"
             >
               <p className={textStyle}>{item.name}</p>
             </div>
