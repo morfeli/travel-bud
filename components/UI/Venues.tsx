@@ -9,6 +9,7 @@ type DestinationCardProps = {
   error: boolean;
   loading: boolean;
   data: iData[];
+  savedData: any[];
   email: string;
   objectID: string;
 };
@@ -19,12 +20,17 @@ export const Venues = ({
   data,
   email,
   objectID,
+  savedData,
 }: DestinationCardProps) => {
   const [test, setTest] = useState<boolean>(false);
   const [selectedTitle, setSelectedTitle] = useState<string>("");
   const [placeTips, setPlaceTips] = useState([]);
   const [placePhotos, setPlacePhotos] = useState([]);
   const [loadingDetails, setLoadingDetails] = useState<boolean>(false);
+
+  const savedVenueDataFSQID = savedData[0].savedVenues.map(
+    (item: any) => item.fsq_id
+  );
 
   const options = {
     method: "GET",
@@ -116,7 +122,6 @@ export const Venues = ({
   return (
     <section className="flex flex-col py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:mx-auto sm:justify-items-center sm:px-6 md:grid-cols-4 xl:grid-cols-6">
       {data.map((item, i) => {
-        console.log(item);
         return (
           <motion.div
             initial={{
@@ -134,6 +139,7 @@ export const Venues = ({
           >
             <div className="absolute p-1 bg-white rounded-md right-2 top-1">
               <SaveButton
+                userSavedIDS={savedVenueDataFSQID}
                 itemID={item.fsq_id}
                 name={item.name}
                 address={item.location.address}

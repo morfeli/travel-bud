@@ -10,6 +10,7 @@ type SaveButtonProps = {
   objectID: string;
   venueLat: string | number;
   venueLon: string | number;
+  userSavedIDS: string[];
 };
 
 export const SaveButton = ({
@@ -21,6 +22,7 @@ export const SaveButton = ({
   objectID,
   venueLat,
   venueLon,
+  userSavedIDS,
 }: SaveButtonProps) => {
   const [userSaved, setUserSaved] = useState<boolean>(false);
 
@@ -54,6 +56,14 @@ export const SaveButton = ({
     }, 3);
   };
 
+  let style;
+
+  if (userSavedIDS.includes(itemID)) {
+    style = true;
+  } else {
+    style = false;
+  }
+
   return (
     <button
       className="z-50 flex w-4 h-4"
@@ -61,7 +71,7 @@ export const SaveButton = ({
       value={itemID}
       onClick={onClick}
     >
-      <HeartSVG userSaved={userSaved} />
+      <HeartSVG userSaved={userSaved} style={style} />
     </button>
   );
 };

@@ -73,6 +73,7 @@ const DashboardHomePage = ({
               error={travelCtx.error}
               loading={travelCtx.loading}
               data={travelCtx.data}
+              savedData={savedVenueData}
               email={userInfo.email}
               objectID={userInfo.objectId}
             />
@@ -112,6 +113,7 @@ const DashboardHomePage = ({
                 error={travelCtx.error}
                 loading={travelCtx.loading}
                 data={travelCtx.data}
+                savedData={savedVenueData}
                 email={userInfo.email}
                 objectID={userInfo.objectId}
               />
