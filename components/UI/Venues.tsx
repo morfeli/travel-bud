@@ -155,19 +155,20 @@ export const Venues = ({
             key={item.fsq_id}
             className="relative flex flex-col self-center p-1 m-2 text-center rounded-md cursor-pointer justify-evenly w-80 hover:my-rotate-y-180 bg-lightpurpleOne sm:w-40 sm:h-40 md:justify-center"
           >
-            <SaveButton
-              userSavedIDS={savedVenueDataFSQID}
-              userStateData={userStateData}
-              itemID={item.fsq_id}
-              name={item.name}
-              address={item.location.address}
-              locality={item.location.locality}
-              venueLat={item.geocodes.main.latitude}
-              venueLon={item.geocodes.main.longitude}
-              email={email}
-              objectID={objectID}
-            />
-
+            <div className="absolute z-50 px-2 py-1 bg-white rounded-full right-2 top-1">
+              <SaveButton
+                userSavedIDS={savedVenueDataFSQID}
+                userStateData={userStateData}
+                itemID={item.fsq_id}
+                name={item.name}
+                address={item.location.address}
+                locality={item.location.locality}
+                venueLat={item.geocodes.main.latitude}
+                venueLon={item.geocodes.main.longitude}
+                email={email}
+                objectID={objectID}
+              />
+            </div>
             <div className="p-2">
               <p className="pt-4 mx-auto sm:text-sm md:pt-4">{item.name}</p>
               <p className="text-sm">
