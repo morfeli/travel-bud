@@ -284,7 +284,7 @@ export const SavedProfilePage = ({
     }
 
     return (
-      <section className="h-screen p-4 overflow-y-scroll">
+      <section className="h-screen p-4 overflow-y-scroll scroll-smooth">
         <div className="flex items-center justify-around w-48 mx-auto">
           <div className="flex items-center justify-center w-10 h-10 text-white rounded-full bg-darkpurpleOne">
             {UILength}
