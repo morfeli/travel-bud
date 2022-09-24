@@ -1,4 +1,3 @@
-import { HeartSVG } from "../Icons/HeartSVG";
 import { useState } from "react";
 
 type SaveButtonProps = {
