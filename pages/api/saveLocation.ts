@@ -21,6 +21,7 @@ export default async function saveLocationHandler(
       venueLat,
       venueLon,
     } = data;
+
     const client = await connectToDatabase();
 
     const db = client.db("morfeli-travelbud");
@@ -29,9 +30,9 @@ export default async function saveLocationHandler(
       userID: objectID,
     });
 
-    const userAlreadySavedVenue = await db.collection("saved-venus").findOne({
+    const userAlreadySavedVenue = await db.collection("saved-venus").find({
       userID: objectID,
-      savedVenus: { $in: [fsq_id] },
+      savedVenues: { $in: [fsq_id] },
     });
 
     if (!userExists) {
@@ -44,10 +45,17 @@ export default async function saveLocationHandler(
       res.status(201).json({
         message: "Venue has been saved, go check it out :)",
       });
-    } else if (userExists && userAlreadySavedVenue) {
+
+      client.close();
+      return;
+    }
+
+    if (userExists && userAlreadySavedVenue) {
       res.status(201).json({
         message: "You already saved this venue, go check it out :)",
       });
+
+      client.close();
 
       return;
     }
@@ -70,8 +78,7 @@ export default async function saveLocationHandler(
       );
 
       res.status(201).json({ message: "Saved!" });
+      client.close();
     }
-
-    client.close();
   }
 }

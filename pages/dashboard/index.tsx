@@ -20,6 +20,7 @@ const DashboardHomePage = ({
   length,
   savedVenueData,
   savedUserPosts,
+  savedVenueIDS,
 }: any) => {
   const travelCtx = useTravelContext();
   const [innerWidth, setInnerWidth] = useState<number>(0);
@@ -51,11 +52,10 @@ const DashboardHomePage = ({
   const storeSavedDataHandler = (item: any) => {
     const IDs = userSavedDataState.map((item) => item.id);
 
-    if (IDs.includes(item.id)) {
-      console.log("yes");
+    if (IDs.includes(item.id) || savedVenueIDS.includes(item.id)) {
       return;
     }
-    setUserSavedDataState((current) => [item, ...current]);
+    setUserSavedDataState((current) => [...current, item]);
   };
 
   if (isMobile) {
@@ -87,6 +87,7 @@ const DashboardHomePage = ({
               data={travelCtx.data}
               savedData={savedVenueData}
               storeStateData={storeSavedDataHandler}
+              userStateData={userSavedDataState}
               email={userInfo.email}
               objectID={userInfo.objectId}
             />
@@ -131,6 +132,7 @@ const DashboardHomePage = ({
                 email={userInfo.email}
                 objectID={userInfo.objectId}
                 storeStateData={storeSavedDataHandler}
+                userStateData={userSavedDataState}
               />
               <Categories isMobile={isMobile} innerWidth={innerWidth} />
               <PopularPlaces />
@@ -194,11 +196,22 @@ export const getServerSideProps = async (context: any) => {
       length = savedVenue[0].savedVenues.length;
     }
 
+    const savedVenueDataIDS = savedVenue[0].savedVenues.map(
+      (item: any) => item.fsq_id
+    );
+
     const savedVenueData = JSON.parse(JSON.stringify(savedVenue));
     const savedUserPosts = JSON.parse(JSON.stringify(userPosts));
+    const savedVenueIDS = JSON.parse(JSON.stringify(savedVenueDataIDS));
 
     return {
-      props: { userInfo, savedVenueData, length, savedUserPosts },
+      props: {
+        userInfo,
+        savedVenueData,
+        length,
+        savedUserPosts,
+        savedVenueIDS,
+      },
     };
   }
 };

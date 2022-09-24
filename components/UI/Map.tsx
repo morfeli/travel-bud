@@ -9,6 +9,7 @@ type MapProps = {
   markerCords: {
     lat: number;
     lng: number;
+    name?: string;
   }[];
 };
 
@@ -39,6 +40,11 @@ export const Map = ({ markerCords }: MapProps) => {
       anchor: "center",
     })
       .setLngLat([lng, lat])
+      .setPopup(
+        new mapboxgl.Popup({ offset: 25 }).setHTML(
+          `<div><p>You are here! :D</p></div`
+        )
+      )
       .addTo(mapboxMap);
 
     markerCords.map((item) => {
@@ -46,6 +52,11 @@ export const Map = ({ markerCords }: MapProps) => {
         anchor: "center",
       })
         .setLngLat([item.lng, item.lat])
+        .setPopup(
+          new mapboxgl.Popup({ offset: 25 }).setHTML(
+            `<div class="p-2 text-center"><p>${item.name}</p></div>`
+          )
+        )
         .addTo(mapboxMap);
     });
 

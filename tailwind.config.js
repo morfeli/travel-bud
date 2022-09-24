@@ -1,4 +1,18 @@
 /** @type {import('tailwindcss').Config} */
+
+const plugin = require("tailwindcss/plugin");
+
+const myclass = plugin(function ({ addUtilities }) {
+  addUtilities({
+    ".my-rotate-y-180": {
+      transform: "rotateY(180deg)",
+    },
+    ".backface": {
+      backfaceVisibilty: "hidden",
+    },
+  });
+});
+
 module.exports = {
   content: [
     "./pages/**/*.{js,ts,jsx,tsx}",
@@ -32,5 +46,5 @@ module.exports = {
       tiny: "0.2",
     },
   },
-  plugins: [],
+  plugins: [myclass],
 };

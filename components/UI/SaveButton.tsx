@@ -11,6 +11,7 @@ type SaveButtonProps = {
   venueLat: string | number;
   venueLon: string | number;
   userSavedIDS: string[];
+  userStateData: any[];
 };
 
 export const SaveButton = ({
@@ -23,8 +24,11 @@ export const SaveButton = ({
   venueLat,
   venueLon,
   userSavedIDS,
+  userStateData,
 }: SaveButtonProps) => {
   const [userSaved, setUserSaved] = useState<boolean>(false);
+
+  const userStateVenueIDS = userStateData.map((item) => item.id);
 
   const toggleSaveStyle = () => {
     setUserSaved(true);
@@ -58,7 +62,7 @@ export const SaveButton = ({
 
   let style;
 
-  if (userSavedIDS.includes(itemID)) {
+  if (userSavedIDS.includes(itemID) || userStateVenueIDS.includes(itemID)) {
     style = true;
   } else {
     style = false;

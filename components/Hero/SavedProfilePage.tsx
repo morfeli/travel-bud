@@ -169,6 +169,7 @@ export const SavedProfilePage = ({
         const venueMarkers = {
           lat: item.venueLat,
           lng: item.venueLon,
+          name: item.name,
         };
 
         venueCords.push(venueMarkers);
@@ -179,13 +180,14 @@ export const SavedProfilePage = ({
         const venueMarkers = {
           lat: item.venueLat,
           lng: item.venueLon,
+          name: item.name,
         };
         venueCords.push(venueMarkers);
       });
     }
 
     setVenueCords(venueCords);
-  }, []);
+  }, [stateData, data]);
 
   if (displayForm) {
     return (

@@ -9,6 +9,7 @@ type DestinationCardProps = {
   error: boolean;
   loading: boolean;
   data: iData[];
+  userStateData: any[];
   savedData: any[];
   email: string;
   objectID: string;
@@ -23,12 +24,14 @@ export const Venues = ({
   objectID,
   savedData,
   storeStateData,
+  userStateData,
 }: DestinationCardProps) => {
   const [test, setTest] = useState<boolean>(false);
   const [selectedTitle, setSelectedTitle] = useState<string>("");
   const [placeTips, setPlaceTips] = useState([]);
   const [placePhotos, setPlacePhotos] = useState([]);
   const [loadingDetails, setLoadingDetails] = useState<boolean>(false);
+  const [hello, setHello] = useState<boolean>(false);
 
   const savedVenueDataFSQID = savedData[0].savedVenues.map(
     (item: any) => item.fsq_id
@@ -125,7 +128,7 @@ export const Venues = ({
   }
 
   return (
-    <section className="flex flex-col py-4 sm:grid sm:grid-cols-3 sm:mx-auto sm:justify-items-center md:grid-cols-4 xl:grid-cols-6">
+    <section className="flex flex-col py-4 sm:grid sm:grid-cols-3 sm:mx-auto sm:justify-items-center md:grid-cols-4 md:gap-6 xl:grid-cols-6">
       {data.map((item, i) => {
         const stateData = {
           id: item.fsq_id,
@@ -135,6 +138,7 @@ export const Venues = ({
           venueLat: item.geocodes.main.latitude,
           venueLon: item.geocodes.main.longitude,
         };
+
         return (
           <motion.div
             initial={{
@@ -149,11 +153,12 @@ export const Venues = ({
             animate={{ opacity: 1, translateX: 0, translateY: 0 }}
             transition={{ duration: 0.8, delay: i * 0.2 }}
             key={item.fsq_id}
-            className="relative flex flex-col self-center p-1 m-2 text-center rounded-md cursor-pointer justify-evenly w-80 bg-lightpurpleOne sm:w-40 sm:h-40 md:justify-center"
+            className="relative flex flex-col self-center p-1 m-2 text-center rounded-md cursor-pointer justify-evenly w-80 hover:my-rotate-y-180 bg-lightpurpleOne sm:w-40 sm:h-40 md:justify-center"
           >
             <div className="absolute px-2 py-1 bg-white rounded-full right-2 top-1">
               <SaveButton
                 userSavedIDS={savedVenueDataFSQID}
+                userStateData={userStateData}
                 itemID={item.fsq_id}
                 name={item.name}
                 address={item.location.address}
