@@ -69,7 +69,7 @@ export const SaveButton = ({
 
   return (
     <button
-      className="z-50 flex w-4 h-4"
+      className="flex w-4 h-4"
       name="saveButton"
       value={itemID}
       onClick={onClick}
