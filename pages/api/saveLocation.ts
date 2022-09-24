@@ -50,7 +50,9 @@ export default async function saveLocationHandler(
       });
 
       return;
-    } else if (userExists && !userAlreadySavedVenue) {
+    }
+
+    if (userExists && !userAlreadySavedVenue) {
       await db.collection("saved-venues").updateOne(
         { userID: objectID },
         {

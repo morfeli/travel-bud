@@ -13,6 +13,7 @@ type SavedProfilePageProps = {
   data: any[];
   username: string;
   objectID: string;
+  stateData: any[];
 };
 
 const ratingValues = [
@@ -53,6 +54,7 @@ export const SavedProfilePage = ({
   data,
   username,
   objectID,
+  stateData,
 }: SavedProfilePageProps) => {
   const [displayForm, setDisplayForm] = useState<boolean>(false);
   const [venueDetails, setVenueDetails] = useState<{
@@ -161,9 +163,8 @@ export const SavedProfilePage = ({
   };
 
   useEffect(() => {
+    let venueCords: any = [];
     if (data.length > 0) {
-      let venueCords: any = [];
-
       data[0].savedVenues.map((item: any) => {
         const venueMarkers = {
           lat: item.venueLat,
@@ -172,9 +173,18 @@ export const SavedProfilePage = ({
 
         venueCords.push(venueMarkers);
       });
-
-      setVenueCords(venueCords);
     }
+    if (stateData.length > 0) {
+      stateData.map((item: any) => {
+        const venueMarkers = {
+          lat: item.venueLat,
+          lng: item.venueLon,
+        };
+        venueCords.push(venueMarkers);
+      });
+    }
+
+    setVenueCords(venueCords);
   }, []);
 
   if (displayForm) {
@@ -263,11 +273,19 @@ export const SavedProfilePage = ({
       word = "Venue";
     }
 
+    let UILength;
+
+    if (!stateData) {
+      UILength = length;
+    } else {
+      UILength = stateData.length + length;
+    }
+
     return (
-      <section className="p-4">
+      <section className="h-screen p-4 overflow-y-scroll">
         <div className="flex items-center justify-around w-48 mx-auto">
           <div className="flex items-center justify-center w-10 h-10 text-white rounded-full bg-darkpurpleOne">
-            {length}
+            {UILength}
           </div>
           <h1
             className={classNames("text-xl, text-center", {
@@ -301,6 +319,29 @@ export const SavedProfilePage = ({
               </motion.div>
             );
           })}
+          {stateData &&
+            stateData.map((item: any, i: number) => {
+              return (
+                <motion.div
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                  key={item.id}
+                  className={divStyle}
+                  onClick={() =>
+                    displayFormandPassDataHandler(
+                      item.name,
+                      item.address,
+                      item.localilty
+                    )
+                  }
+                >
+                  <h1 className="text-center">{item.name}</h1>
+                  <p className="text-center">
+                    {item.address}, {item.locality}
+                  </p>
+                </motion.div>
+              );
+            })}
         </div>
 
         <Map markerCords={venueCords} />

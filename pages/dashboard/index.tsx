@@ -23,6 +23,7 @@ const DashboardHomePage = ({
 }: any) => {
   const travelCtx = useTravelContext();
   const [innerWidth, setInnerWidth] = useState<number>(0);
+  const [userSavedDataState, setUserSavedDataState] = useState<any[]>([]);
   const isMobile = innerWidth < 767;
 
   const changeWidth = () => setInnerWidth(window.innerWidth);
@@ -47,6 +48,16 @@ const DashboardHomePage = ({
     };
   }, []);
 
+  const storeSavedDataHandler = (item: any) => {
+    const IDs = userSavedDataState.map((item) => item.id);
+
+    if (IDs.includes(item.id)) {
+      console.log("yes");
+      return;
+    }
+    setUserSavedDataState((current) => [item, ...current]);
+  };
+
   if (isMobile) {
     return (
       <>
@@ -61,6 +72,7 @@ const DashboardHomePage = ({
             <SavedProfilePage
               length={length}
               data={savedVenueData}
+              stateData={userSavedDataState}
               username={userInfo.userName}
               objectID={userInfo.objectId}
             />
@@ -74,6 +86,7 @@ const DashboardHomePage = ({
               loading={travelCtx.loading}
               data={travelCtx.data}
               savedData={savedVenueData}
+              storeStateData={storeSavedDataHandler}
               email={userInfo.email}
               objectID={userInfo.objectId}
             />
@@ -103,6 +116,7 @@ const DashboardHomePage = ({
                 data={savedVenueData}
                 username={userInfo.userName}
                 objectID={userInfo.objectId}
+                stateData={userSavedDataState}
               />
             </div>
           )}
@@ -116,6 +130,7 @@ const DashboardHomePage = ({
                 savedData={savedVenueData}
                 email={userInfo.email}
                 objectID={userInfo.objectId}
+                storeStateData={storeSavedDataHandler}
               />
               <Categories isMobile={isMobile} innerWidth={innerWidth} />
               <PopularPlaces />

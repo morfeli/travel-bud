@@ -12,6 +12,7 @@ type DestinationCardProps = {
   savedData: any[];
   email: string;
   objectID: string;
+  storeStateData: (item: any) => void;
 };
 
 export const Venues = ({
@@ -21,6 +22,7 @@ export const Venues = ({
   email,
   objectID,
   savedData,
+  storeStateData,
 }: DestinationCardProps) => {
   const [test, setTest] = useState<boolean>(false);
   const [selectedTitle, setSelectedTitle] = useState<string>("");
@@ -94,14 +96,17 @@ export const Venues = ({
           </div>
         )}
         <div className="flex flex-col pt-8">
-          <h1 className="self-center text-lg">
-            User reviews for <span className="text-2xl">{selectedTitle}</span>
-          </h1>
-          <ul>
+          <p className="text-lg text-center">
+            User reviews for... <br />
+            <span className="text-3xl text-center border-b-2 border-medpurpleThree">
+              {selectedTitle}
+            </span>
+          </p>
+          <ul className="py-4">
             {placeTips.map((item: any) => {
               return (
                 <li
-                  className="flex p-4 m-4 list-none bg-red-200 rounded-2xl"
+                  className="flex p-4 m-4 list-none bg-lightpurpleOne rounded-2xl"
                   key={item.id}
                 >
                   {item.text ? (
@@ -120,8 +125,16 @@ export const Venues = ({
   }
 
   return (
-    <section className="flex flex-col py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:mx-auto sm:justify-items-center sm:px-6 md:grid-cols-4 xl:grid-cols-6">
+    <section className="flex flex-col py-4 sm:grid sm:grid-cols-3 sm:mx-auto sm:justify-items-center md:grid-cols-4 xl:grid-cols-6">
       {data.map((item, i) => {
+        const stateData = {
+          id: item.fsq_id,
+          name: item.name,
+          address: item.location.address,
+          locality: item.location.locality,
+          venueLat: item.geocodes.main.latitude,
+          venueLon: item.geocodes.main.longitude,
+        };
         return (
           <motion.div
             initial={{
@@ -131,13 +144,14 @@ export const Venues = ({
             }}
             onClick={(e) => {
               fetchPlaceDetailsAndPhotos(item.fsq_id, item.name, e);
+              storeStateData(stateData);
             }}
             animate={{ opacity: 1, translateX: 0, translateY: 0 }}
             transition={{ duration: 0.8, delay: i * 0.2 }}
             key={item.fsq_id}
-            className="relative flex flex-col items-center self-center p-1 m-2 text-center rounded-md cursor-pointer justify-evenly w-80 bg-lightpurpleOne sm:w-52 md:w-40 md:justify-center"
+            className="relative flex flex-col self-center p-1 m-2 text-center rounded-md cursor-pointer justify-evenly w-80 bg-lightpurpleOne sm:w-40 sm:h-40 md:justify-center"
           >
-            <div className="absolute p-1 bg-white rounded-md right-2 top-1">
+            <div className="absolute px-2 py-1 bg-white rounded-full right-2 top-1">
               <SaveButton
                 userSavedIDS={savedVenueDataFSQID}
                 itemID={item.fsq_id}
@@ -151,8 +165,8 @@ export const Venues = ({
               />
             </div>
             <div className="p-2">
-              <h2 className="text-xl md:pt-4">{item.name}</h2>
-              <p className="text-md">
+              <p className="pt-4 mx-auto sm:text-sm md:pt-4">{item.name}</p>
+              <p className="text-sm">
                 {item.location.address}, {item.location.locality}
               </p>
             </div>
