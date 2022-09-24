@@ -20,7 +20,19 @@ type DashboardHeroProps = {
 };
 
 export const DashboardHero = ({ userInfo, isMobile }: DashboardHeroProps) => {
+  const [loading, setLoading] = useState<boolean>(true);
   const travelCtx = useTravelContext();
+  const city = travelCtx.userLocation.city;
+  const city2 = travelCtx.userLocation.locality;
+  const city3 = travelCtx.userLocation.principalSubdivision;
+
+  useEffect(() => {
+    if (city && city2 && city3) {
+      setLoading(false);
+    } else {
+      setLoading(true);
+    }
+  }, [city, city2, city3]);
 
   const [message, setMessage] = useState<string>("");
 
@@ -68,7 +80,7 @@ export const DashboardHero = ({ userInfo, isMobile }: DashboardHeroProps) => {
             </div>
           </div>
 
-          {travelCtx.userLocation && (
+          {!loading ? (
             <div className="flex py-4 text-lg">
               <PinSVG />
               <span className={textStyle}>
@@ -76,6 +88,8 @@ export const DashboardHero = ({ userInfo, isMobile }: DashboardHeroProps) => {
                 , {travelCtx.userLocation.principalSubdivision}
               </span>
             </div>
+          ) : (
+            <p>Loading...</p>
           )}
         </div>
 
@@ -116,14 +130,16 @@ export const DashboardHero = ({ userInfo, isMobile }: DashboardHeroProps) => {
             </div>
           </div>
 
-          {travelCtx.userLocation && (
-            <div className="flex py-4">
+          {!loading ? (
+            <div className="flex py-4 text-lg">
               <PinSVG />
               <span className={textStyle}>
                 {travelCtx.userLocation.locality}, {travelCtx.userLocation.city}
                 , {travelCtx.userLocation.principalSubdivision}
               </span>
             </div>
+          ) : (
+            <p>Loading...</p>
           )}
         </div>
 
