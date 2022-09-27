@@ -33,9 +33,14 @@ export const Venues = ({
   const [loadingDetails, setLoadingDetails] = useState<boolean>(false);
   const [hello, setHello] = useState<boolean>(false);
 
-  const savedVenueDataFSQID = savedData[0].savedVenues.map(
-    (item: any) => item.fsq_id
-  );
+  let savedVenueDataFSQID: any;
+  if (savedData[0]) {
+    savedVenueDataFSQID = savedData[0].savedVenues.map(
+      (item: any) => item.fsq_id
+    );
+  } else {
+    savedVenueDataFSQID = null;
+  }
 
   const options = {
     method: "GET",

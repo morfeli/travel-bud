@@ -196,9 +196,15 @@ export const getServerSideProps = async (context: any) => {
       length = savedVenue[0].savedVenues.length;
     }
 
-    const savedVenueDataIDS = savedVenue[0].savedVenues.map(
-      (item: any) => item.fsq_id
-    );
+    let savedVenueDataIDS;
+
+    if (savedVenue[0]) {
+      savedVenueDataIDS = savedVenue[0].savedVenues.map(
+        (item: any) => item.fsq_id
+      );
+    } else {
+      savedVenueDataIDS = [];
+    }
 
     const savedVenueData = JSON.parse(JSON.stringify(savedVenue));
     const savedUserPosts = JSON.parse(JSON.stringify(userPosts));

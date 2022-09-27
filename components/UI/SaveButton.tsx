@@ -59,12 +59,18 @@ export const SaveButton = ({
     }, 3);
   };
 
-  let style;
+  let style = false;
 
-  if (userSavedIDS.includes(itemID) || userStateVenueIDS.includes(itemID)) {
-    style = true;
-  } else {
-    style = false;
+  if (userSavedIDS) {
+    if (userSavedIDS.includes(itemID)) {
+      style = true;
+    }
+  }
+
+  if (userStateVenueIDS) {
+    if (userStateVenueIDS.includes(itemID)) {
+      style = true;
+    }
   }
 
   return (
