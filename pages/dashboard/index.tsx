@@ -29,7 +29,7 @@ const DashboardHomePage = ({
 
   const changeWidth = () => setInnerWidth(window.innerWidth);
 
-  const pageStyles = classNames("overflow-hidden", "pb-4", {
+  const pageStyles = classNames("pb-4", "mb-4", {
     "text-darkpurpleThree": travelCtx.darkMode,
     "bg-[#121212]": travelCtx.darkMode,
   });
