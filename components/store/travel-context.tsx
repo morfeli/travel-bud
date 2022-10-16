@@ -106,25 +106,49 @@ export const TravelAppProvider = ({ children }: TravelProviderProps) => {
     },
   };
 
-  useEffect(() => {
-    navigator.geolocation.getCurrentPosition(
-      ({ coords: { latitude, longitude } }) => {
-        setUserCoordinates({ lat: latitude, lng: longitude });
-        setMapCoordinates({ lat: latitude, lng: longitude });
-      }
-    );
-  }, []);
+  // useEffect(() => {
+  //   navigator.geolocation.getCurrentPosition(
+  //     ({ coords: { latitude, longitude } }) => {
+  //       setUserCoordinates({ lat: latitude, lng: longitude });
+  //       setMapCoordinates({ lat: latitude, lng: longitude });
+  //     }
+  //   );
+  // }, []);
+
+  const fetchGeoData = () => {
+    fetch("https://ipwho.is/")
+      .then((res) => res.json())
+      .then((data) => {
+        const lat = data.latitude;
+        const lng = data.longitude;
+        const city = data.city;
+        const region = data.region;
+        const nation = data.continent;
+
+        console.log(data);
+
+        setUserCoordinates({
+          lat: lat,
+          lng: lng,
+        });
+
+        setMapCoordinates({
+          lat: lat,
+          lng: lng,
+        });
+
+        setUserLocation({
+          city: city,
+          locality: region,
+          principalSubdivision: nation,
+        });
+      })
+      .catch((error) => setError(error));
+  };
 
   useEffect(() => {
-    if (userCoordinates.lat === 0 && userCoordinates.lng === 0) {
-      return;
-    }
-    fetch(
-      `https://api.bigdatacloud.net/data/reverse-geocode?latitude=${userCoordinates.lat}&longitude=${userCoordinates.lng}&localityLanguage=en&key=bdc_ce142ca2242b401bb3b1e5dd86775bfb`
-    )
-      .then((res) => res.json())
-      .then((data) => setUserLocation(data));
-  }, [userCoordinates]);
+    fetchGeoData();
+  }, []);
 
   const fetchData = () => {
     if (userSearch.trim() === "") {
@@ -156,8 +180,8 @@ export const TravelAppProvider = ({ children }: TravelProviderProps) => {
       return;
     }
 
-    const locality = encodeURIComponent(userLocation.locality);
-    const state = userLocation.principalSubdivision;
+    const locality = encodeURIComponent(userLocation.city);
+    const state = userLocation.locality;
 
     const searchKey = `${locality}%2C%20${state}`;
 

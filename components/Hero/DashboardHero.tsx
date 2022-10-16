@@ -27,7 +27,7 @@ export const DashboardHero = ({ userInfo, isMobile }: DashboardHeroProps) => {
   const city3 = travelCtx.userLocation.principalSubdivision;
 
   useEffect(() => {
-    if (city && city2 && city3) {
+    if (city || city2 || city3) {
       setLoading(false);
     } else {
       setLoading(true);
@@ -79,7 +79,7 @@ export const DashboardHero = ({ userInfo, isMobile }: DashboardHeroProps) => {
             <div className="flex py-4 text-lg">
               <PinSVG />
               <span className={textStyle}>
-                {travelCtx.userLocation.locality}, {travelCtx.userLocation.city}
+                {travelCtx.userLocation.city},{travelCtx.userLocation.locality},
                 , {travelCtx.userLocation.principalSubdivision}
               </span>
             </div>
@@ -124,7 +124,7 @@ export const DashboardHero = ({ userInfo, isMobile }: DashboardHeroProps) => {
             <div className="flex py-4 text-lg">
               <PinSVG />
               <span className={textStyle}>
-                {travelCtx.userLocation.locality}, {travelCtx.userLocation.city}
+                {travelCtx.userLocation.city}, {travelCtx.userLocation.locality}
                 , {travelCtx.userLocation.principalSubdivision}
               </span>
             </div>
