@@ -61,12 +61,7 @@ export const DashboardHero = ({ userInfo, isMobile }: DashboardHeroProps) => {
 
   if (isMobile) {
     return (
-      <motion.section
-        className="flex flex-col justify-between px-2 py-8 sm:px-4"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1 }}
-      >
+      <motion.section className="flex flex-col justify-between px-2 py-8 sm:px-4">
         <div className="sm:flex sm:justify-between">
           <div className="flex justify-between pt-2 text-md">
             <div className="flex">
