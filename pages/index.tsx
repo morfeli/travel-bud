@@ -11,6 +11,12 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <LoginPage />
+      <div className="text-center">
+        <h2 className="text-xl">Dummy Credientals</h2>
+
+        <p className="py-2">Email: test@gmail.com</p>
+        <p>Password: testtesttest</p>
+      </div>
     </div>
   );
 };
