@@ -79,7 +79,7 @@ export const DashboardHero = ({ userInfo, isMobile }: DashboardHeroProps) => {
             <div className="flex py-4 text-lg">
               <PinSVG />
               <span className={textStyle}>
-                {travelCtx.userLocation.city},{travelCtx.userLocation.locality},
+                {travelCtx.userLocation.city}, {travelCtx.userLocation.locality}
                 , {travelCtx.userLocation.principalSubdivision}
               </span>
             </div>
@@ -88,15 +88,13 @@ export const DashboardHero = ({ userInfo, isMobile }: DashboardHeroProps) => {
           )}
         </div>
 
-        <div className="pt-4 sm:flex sm:justify-between">
-          <div>
-            <p className={textStyle}>
-              {message}, {userInfo.firstName}.
-            </p>
-            <p className={classNames(textStyle, "text-2xl")}>
-              Where do you want to go?
-            </p>
-          </div>
+        <div className="pt-4 pl-2 sm:flex sm:justify-between">
+          <p className={textStyle}>
+            {message}, {userInfo.firstName}.
+          </p>
+          <p className={classNames(textStyle, "text-2xl")}>
+            Where do you want to go?
+          </p>
 
           <SearchBar />
         </div>
@@ -134,7 +132,7 @@ export const DashboardHero = ({ userInfo, isMobile }: DashboardHeroProps) => {
         </div>
 
         <div className="pt-4 sm:flex sm:justify-between">
-          <div className="">
+          <div>
             <p className={textStyle}>
               {message}, {userInfo.firstName}.
             </p>

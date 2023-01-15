@@ -32,6 +32,7 @@ const DashboardHomePage = ({
   const pageStyles = classNames("pb-4", "mb-4", {
     "text-darkpurpleThree": travelCtx.darkMode,
     "bg-[#121212]": travelCtx.darkMode,
+    "h-screen": travelCtx.darkMode,
   });
 
   const desktopPageStyles = classNames("overflow-hidden", "flex", {

@@ -31,7 +31,6 @@ export const Venues = ({
   const [placeTips, setPlaceTips] = useState([]);
   const [placePhotos, setPlacePhotos] = useState([]);
   const [loadingDetails, setLoadingDetails] = useState<boolean>(false);
-  const [hello, setHello] = useState<boolean>(false);
 
   let savedVenueDataFSQID: any;
   if (savedData[0]) {
@@ -133,17 +132,8 @@ export const Venues = ({
   }
 
   return (
-    <section className="flex flex-col py-4 sm:grid sm:grid-cols-3 sm:mx-auto sm:justify-items-center md:grid-cols-4 md:gap-6 xl:grid-cols-6">
+    <section className="flex flex-col py-4 sm:grid sm:grid-cols-3 sm:mx-auto sm:justify-items-center md:grid-cols-4 xl:grid-cols-6">
       {data.map((item, i) => {
-        const stateData = {
-          id: item.fsq_id,
-          name: item.name,
-          address: item.location.address,
-          locality: item.location.locality,
-          venueLat: item.geocodes.main.latitude,
-          venueLon: item.geocodes.main.longitude,
-        };
-
         return (
           <motion.div
             initial={{
@@ -153,7 +143,6 @@ export const Venues = ({
             }}
             onClick={(e) => {
               fetchPlaceDetailsAndPhotos(item.fsq_id, item.name, e);
-              storeStateData(stateData);
             }}
             animate={{ opacity: 1, translateX: 0, translateY: 0 }}
             transition={{ duration: 0.8, delay: i * 0.2 }}
@@ -162,6 +151,7 @@ export const Venues = ({
           >
             <div className="absolute z-50 px-2 py-1 bg-white rounded-full right-2 top-1">
               <SaveButton
+                storeStateData={storeStateData}
                 userSavedIDS={savedVenueDataFSQID}
                 userStateData={userStateData}
                 itemID={item.fsq_id}

@@ -11,6 +11,7 @@ type SaveButtonProps = {
   venueLon: string | number;
   userSavedIDS: string[];
   userStateData: any[];
+  storeStateData: (item: any) => void;
 };
 
 export const SaveButton = ({
@@ -24,10 +25,20 @@ export const SaveButton = ({
   venueLon,
   userSavedIDS,
   userStateData,
+  storeStateData,
 }: SaveButtonProps) => {
   const [userSaved, setUserSaved] = useState<boolean>(false);
 
   const userStateVenueIDS = userStateData.map((item) => item.id);
+
+  const stateData = {
+    id: itemID,
+    name,
+    address,
+    locality,
+    venueLat,
+    venueLon,
+  };
 
   const toggleSaveStyle = () => {
     setUserSaved(true);
@@ -35,6 +46,7 @@ export const SaveButton = ({
 
   const onClick = () => {
     toggleSaveStyle();
+    storeStateData(stateData);
 
     const data = {
       fsq_id: itemID,

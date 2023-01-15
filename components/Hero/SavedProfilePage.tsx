@@ -201,17 +201,18 @@ export const SavedProfilePage = ({
           Go Back
         </motion.button>
         <form
-          className="flex flex-col h-screen py-8 justify-evenly md:h-full"
+          className="flex flex-col h-screen py-8 justify-evenly md:h-full md:w-75vw"
           onSubmit={submitFormHandler}
         >
-          <h1 className="self-center w-3/4 pb-8 text-2xl text-center border-b-2 border-lightpurpleThree">
-            How was your time at... <br />
-            <span>{venueDetails.name}</span>?
+          <h1 className="self-center pb-8 text-2xl text-center border-b-2 border-lightpurpleThree">
+            How was your time at...
+            <br />
+            <p className="px-8 pt-4 text-md">{venueDetails.name}?</p>
           </h1>
 
           <div className="flex flex-col">
             <p className="self-center px-2 py-4 text-center text-md">
-              Leave a review regarding your experience at <br />
+              Post a review regarding your experience at <br />
               {venueDetails.name}.
             </p>
 
@@ -351,10 +352,10 @@ export const SavedProfilePage = ({
     );
   } else {
     return (
-      <section className="flex flex-col items-center justify-center h-screen w-90vw">
+      <section className="flex flex-col items-center justify-center h-screen px-8">
         <p className="text-center">
-          Visit the Explore tab and save some places to check out. Come back
-          here once you have created a saved list.
+          Visit the Explore tab to save venues. Come back to the Explore tab
+          once you have created a saved list.
         </p>
       </section>
     );
