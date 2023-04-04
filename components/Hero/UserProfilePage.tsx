@@ -6,6 +6,8 @@ type UserProfilePageProps = {
   data: any[];
 };
 
+const displayEllipses = (value: string) => value.trim().length >= 75;
+
 export const UserProfilePage = ({ data }: UserProfilePageProps) => {
   const travelCtx = useTravelContext();
 
@@ -23,7 +25,7 @@ export const UserProfilePage = ({ data }: UserProfilePageProps) => {
         for (let i = 1; i <= rateNum; i++) {
           starArray.push(i);
         }
-
+        const ellipsisContent = post.post ? displayEllipses(post.post) : false;
         return (
           <div key={post._id} className={divStyle}>
             <div className="flex justify-between">
@@ -42,7 +44,10 @@ export const UserProfilePage = ({ data }: UserProfilePageProps) => {
                 })}
               </div>
             </div>
-            <p className="py-4 first-letter:capitalize">{post.post}</p>
+
+            <p className="py-4 first-letter:capitalize w-[80vw] text-ellipsis overflow-hidden md:w-fit">
+              {post.post}
+            </p>
 
             <div className="flex justify-end">
               <h1 className="italic">@{post.username}</h1>
